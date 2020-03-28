@@ -1,0 +1,456 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam wrapWidth 200
+
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor  Teal
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+skinparam linetype ortho
+skinparam rectangle {
+ roundCorner 100
+}
+'!@Sketch
+package iddd_agilepm <<Rectangle>> #8B9BAC{
+class ProductOwner <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide ProductOwner members
+
+class BacklogItemDiscussion <<(V,#148610) ValueObject>> #861F1B {}
+hide BacklogItemDiscussion members
+
+class ProductOwnerRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide ProductOwnerRepository members
+
+class BacklogItemRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide BacklogItemRepository members
+
+class ProductId <<(V,#148610) ValueObject>> #861F1B {}
+hide ProductId members
+
+class BacklogItemStoryTold <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemStoryTold members
+
+class TaskDescribed <<(T,#207EC4) Event>> #C45E24 {}
+hide TaskDescribed members
+
+class Member <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Member members
+
+class ProductApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide ProductApplicationService members
+
+class ProductDiscussionInitiated <<(T,#207EC4) Event>> #C45E24 {}
+hide ProductDiscussionInitiated members
+
+class ProductDiscussionRequested <<(T,#207EC4) Event>> #C45E24 {}
+hide ProductDiscussionRequested members
+
+class Release <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide Release members
+
+class TaskHoursRemainingEstimated <<(T,#207EC4) Event>> #C45E24 {}
+hide TaskHoursRemainingEstimated members
+
+class BusinessPriority <<(V,#148610) ValueObject>> #861F1B {}
+hide BusinessPriority members
+
+class CommittedBacklogItem <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide CommittedBacklogItem members
+
+class TaskVolunteerAssigned <<(T,#207EC4) Event>> #C45E24 {}
+hide TaskVolunteerAssigned members
+
+class BusinessPriorityRatings <<(V,#148610) ValueObject>> #861F1B {}
+hide BusinessPriorityRatings members
+
+class TaskId <<(V,#148610) ValueObject>> #861F1B {}
+hide TaskId members
+
+class Task <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide Task members
+
+class MemberChangeTracker <<(V,#148610) ValueObject>> #861F1B {}
+hide MemberChangeTracker members
+
+class ProductReleaseScheduled <<(T,#207EC4) Event>> #C45E24 {}
+hide ProductReleaseScheduled members
+
+class BacklogItemStatusChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemStatusChanged members
+
+class ProductCreated <<(T,#207EC4) Event>> #C45E24 {}
+hide ProductCreated members
+
+class ProductDiscussion <<(V,#148610) ValueObject>> #861F1B {}
+hide ProductDiscussion members
+
+class TeamMemberId <<(V,#148610) ValueObject>> #861F1B {}
+hide TeamMemberId members
+
+class TaskRemoved <<(T,#207EC4) Event>> #C45E24 {}
+hide TaskRemoved members
+
+class EstimationLogEntry <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide EstimationLogEntry members
+
+class TeamMemberRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide TeamMemberRepository members
+
+class BacklogItemCategoryChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemCategoryChanged members
+
+class ReleaseRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide ReleaseRepository members
+
+class BusinessPriorityTotals <<(V,#148610) ValueObject>> #861F1B {}
+hide BusinessPriorityTotals members
+
+class ProductBacklogItemPlanned <<(T,#207EC4) Event>> #C45E24 {}
+hide ProductBacklogItemPlanned members
+
+class BacklogItemId <<(V,#148610) ValueObject>> #861F1B {}
+hide BacklogItemId members
+
+class Sprint <<(T,#207EC4) Event>> #C45E24 {}
+hide Sprint members
+
+class SprintApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide SprintApplicationService members
+
+class TaskStatusChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide TaskStatusChanged members
+
+class ProductSprintScheduled <<(T,#207EC4) Event>> #C45E24 {}
+hide ProductSprintScheduled members
+
+class BacklogItemDiscussionInitiated <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemDiscussionInitiated members
+
+class Product <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Product members
+
+class BacklogItemCommitted <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemCommitted members
+
+class BacklogItemMarkedAsRemoved <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemMarkedAsRemoved members
+
+class NotificationApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide NotificationApplicationService members
+
+class DiscussionDescriptor <<(V,#148610) ValueObject>> #861F1B {}
+hide DiscussionDescriptor members
+
+class ScheduledBacklogItem <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide ScheduledBacklogItem members
+
+class TaskDefined <<(T,#207EC4) Event>> #C45E24 {}
+hide TaskDefined members
+
+class SprintId <<(V,#148610) ValueObject>> #861F1B {}
+hide SprintId members
+
+class Team <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide Team members
+
+class BacklogItemStoryPointsAssigned <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemStoryPointsAssigned members
+
+class BacklogItemScheduled <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemScheduled members
+
+class BacklogItemUncommitted <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemUncommitted members
+
+class BacklogItemUnscheduled <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemUnscheduled members
+
+class TeamMember <<(T,#207EC4) Event>> #C45E24 {}
+hide TeamMember members
+
+class TeamRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide TeamRepository members
+
+class BacklogItemApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide BacklogItemApplicationService members
+
+class BacklogItem <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide BacklogItem members
+
+class BusinessPriorityAssigned <<(T,#207EC4) Event>> #C45E24 {}
+hide BusinessPriorityAssigned members
+
+class BacklogItemTypeChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemTypeChanged members
+
+class ProductBacklogItem <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide ProductBacklogItem members
+
+class TaskRenamed <<(T,#207EC4) Event>> #C45E24 {}
+hide TaskRenamed members
+
+class TeamApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide TeamApplicationService members
+
+class TenantId <<(V,#148610) ValueObject>> #861F1B {}
+hide TenantId members
+
+class ProductOwnerId <<(V,#148610) ValueObject>> #861F1B {}
+hide ProductOwnerId members
+
+class ProcessApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide ProcessApplicationService members
+
+class BacklogItemDiscussionRequested <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemDiscussionRequested members
+
+class BacklogItemSummarized <<(T,#207EC4) Event>> #C45E24 {}
+hide BacklogItemSummarized members
+
+}
+'!@Relation
+SprintApplicationService --> BacklogItemRepository
+
+ProductDiscussionRequested --> ProductId
+ProductDiscussionRequested --> TenantId
+ProductDiscussionRequested --> ProductOwnerId
+
+TeamMemberRepository --> TeamMember
+TeamMemberRepository --> TenantId
+
+BacklogItemApplicationService --> BacklogItemRepository
+
+TenantId --> TenantId
+
+BacklogItem --> DiscussionDescriptor
+BacklogItem --> SprintId
+BacklogItem --> TenantId
+BacklogItem --> TaskId
+BacklogItem --> ProductId
+BacklogItem --> BacklogItemDiscussion
+BacklogItem --> TeamMember
+BacklogItem --> Release
+BacklogItem --> Task
+BacklogItem --> BusinessPriority
+BacklogItem --> BacklogItemId
+BacklogItem --> Sprint
+
+Sprint --> BacklogItem
+Sprint --> ProductId
+Sprint --> CommittedBacklogItem
+Sprint --> SprintId
+Sprint --> TenantId
+Sprint --> BacklogItemId
+
+ProductOwnerId --> TenantId
+ProductOwnerId --> ProductOwnerId
+
+ProductBacklogItem --> ProductId
+ProductBacklogItem --> TenantId
+ProductBacklogItem --> BacklogItemId
+
+BusinessPriorityTotals --> BusinessPriorityTotals
+
+BusinessPriorityAssigned --> BusinessPriority
+BusinessPriorityAssigned --> TenantId
+BusinessPriorityAssigned --> BacklogItemId
+
+ProductOwner --> MemberChangeTracker
+ProductOwner --> TenantId
+ProductOwner --> ProductOwnerId
+
+BacklogItemDiscussionRequested --> ProductId
+BacklogItemDiscussionRequested --> TenantId
+BacklogItemDiscussionRequested --> BacklogItemId
+
+ProductBacklogItemPlanned --> ProductId
+ProductBacklogItemPlanned --> TenantId
+ProductBacklogItemPlanned --> BacklogItemId
+
+TaskStatusChanged --> TenantId
+TaskStatusChanged --> TaskId
+TaskStatusChanged --> BacklogItemId
+
+ProductReleaseScheduled --> ProductId
+ProductReleaseScheduled --> TenantId
+
+ProductSprintScheduled --> ProductId
+ProductSprintScheduled --> SprintId
+ProductSprintScheduled --> TenantId
+
+CommittedBacklogItem --> SprintId
+CommittedBacklogItem --> TenantId
+CommittedBacklogItem --> BacklogItemId
+
+EstimationLogEntry --> TenantId
+EstimationLogEntry --> TaskId
+
+BacklogItemCommitted --> SprintId
+BacklogItemCommitted --> TenantId
+BacklogItemCommitted --> BacklogItemId
+
+TeamMemberId --> TeamMemberId
+TeamMemberId --> TenantId
+
+ReleaseRepository --> ProductId
+ReleaseRepository --> Release
+ReleaseRepository --> TenantId
+
+TaskDefined --> TenantId
+TaskDefined --> TaskId
+TaskDefined --> BacklogItemId
+
+BacklogItemStatusChanged --> TenantId
+BacklogItemStatusChanged --> BacklogItemId
+
+BacklogItemScheduled --> TenantId
+BacklogItemScheduled --> BacklogItemId
+
+BacklogItemDiscussionInitiated --> BacklogItemDiscussion
+BacklogItemDiscussionInitiated --> TenantId
+BacklogItemDiscussionInitiated --> BacklogItemId
+
+BacklogItemStoryTold --> TenantId
+BacklogItemStoryTold --> BacklogItemId
+
+ProductDiscussion --> DiscussionDescriptor
+ProductDiscussion --> ProductDiscussion
+
+DiscussionDescriptor --> DiscussionDescriptor
+
+BacklogItemMarkedAsRemoved --> TenantId
+BacklogItemMarkedAsRemoved --> BacklogItemId
+
+Member --> MemberChangeTracker
+Member --> TenantId
+
+BacklogItemStoryPointsAssigned --> TenantId
+BacklogItemStoryPointsAssigned --> BacklogItemId
+
+TaskRemoved --> TenantId
+TaskRemoved --> TaskId
+TaskRemoved --> BacklogItemId
+
+TeamRepository --> Team
+TeamRepository --> TenantId
+
+TaskHoursRemainingEstimated --> TenantId
+TaskHoursRemainingEstimated --> TaskId
+TaskHoursRemainingEstimated --> BacklogItemId
+
+TaskDescribed --> TenantId
+TaskDescribed --> TaskId
+TaskDescribed --> BacklogItemId
+
+MemberChangeTracker --> MemberChangeTracker
+
+BacklogItemSummarized --> TenantId
+BacklogItemSummarized --> BacklogItemId
+
+ProcessApplicationService --> TimeConstrainedProcessTrackerRepository
+
+Release --> BacklogItem
+Release --> ProductId
+Release --> ScheduledBacklogItem
+Release --> TenantId
+Release --> BacklogItemId
+
+ProductId --> ProductId
+
+ProductCreated --> ProductId
+ProductCreated --> TenantId
+ProductCreated --> ProductOwnerId
+
+Product --> DiscussionDescriptor
+Product --> SprintId
+Product --> TenantId
+Product --> BacklogItem
+Product --> ProductBacklogItem
+Product --> ProductId
+Product --> Release
+Product --> ProductOwnerId
+Product --> ProductOwner
+Product --> BacklogItemId
+Product --> ProductDiscussion
+Product --> Sprint
+
+TeamMember --> TeamMemberId
+TeamMember --> MemberChangeTracker
+TeamMember --> TenantId
+
+BacklogItemDiscussion --> DiscussionDescriptor
+BacklogItemDiscussion --> BacklogItemDiscussion
+
+ProductApplicationService --> Product
+ProductApplicationService --> TimeConstrainedProcessTrackerRepository
+ProductApplicationService --> ProductOwnerRepository
+
+BacklogItemCategoryChanged --> TenantId
+BacklogItemCategoryChanged --> BacklogItemId
+
+Task --> TeamMemberId
+Task --> TeamMember
+Task --> TenantId
+Task --> TaskId
+Task --> EstimationLogEntry
+Task --> BacklogItemId
+
+TaskVolunteerAssigned --> TenantId
+TaskVolunteerAssigned --> TaskId
+TaskVolunteerAssigned --> BacklogItemId
+
+TaskRenamed --> TenantId
+TaskRenamed --> TaskId
+TaskRenamed --> BacklogItemId
+
+Team --> TeamMember
+Team --> TenantId
+Team --> ProductOwner
+
+TeamApplicationService --> TeamMemberRepository
+TeamApplicationService --> ProductOwnerRepository
+
+TaskId --> TaskId
+
+ProductOwnerRepository --> TenantId
+ProductOwnerRepository --> ProductOwner
+
+BacklogItemUncommitted --> SprintId
+BacklogItemUncommitted --> TenantId
+BacklogItemUncommitted --> BacklogItemId
+
+BacklogItemTypeChanged --> TenantId
+BacklogItemTypeChanged --> BacklogItemId
+
+ScheduledBacklogItem --> TenantId
+ScheduledBacklogItem --> BacklogItemId
+
+ProductDiscussionInitiated --> ProductId
+ProductDiscussionInitiated --> TenantId
+ProductDiscussionInitiated --> ProductDiscussion
+
+BacklogItemUnscheduled --> TenantId
+BacklogItemUnscheduled --> BacklogItemId
+
+BusinessPriority --> BusinessPriorityTotals
+BusinessPriority --> BusinessPriorityRatings
+BusinessPriority --> BusinessPriority
+
+BacklogItemId --> BacklogItemId
+
+BacklogItemRepository --> BacklogItem
+BacklogItemRepository --> ProductId
+BacklogItemRepository --> SprintId
+BacklogItemRepository --> TenantId
+BacklogItemRepository --> BacklogItemId
+
+BusinessPriorityRatings --> BusinessPriorityRatings
+
+
+@enduml

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="235px" preserveAspectRatio="none" style="width:1372px;height:235px;" version="1.1" viewBox="0 0 1372 235" width="1372px" zoomAndPan="magnify"><defs/><g><!--MD5=[d8ffc0d3fe7d234430cdb9768bf6ec5a]
+cluster iddd_agilepm--><rect fill="#8B9BAC" height="197" rx="50" ry="50" style="stroke: #000000; stroke-width: 1.5;" width="1339" x="22" y="24"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacingAndGlyphs" textLength="97" x="643" y="39.5352">iddd_agilepm</text><!--MD5=[8460849608b5e6605ea8aa1560631f4f]
+class AbstractProcess--><rect fill="#8ED4D1" height="42.9766" id="AbstractProcess" style="stroke: #64B5F6; stroke-width: 1.5;" width="141" x="769.5" y="59"/><rect fill="#8ED4D1" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="141" x="769.5" y="59"/><ellipse cx="784.5" cy="80.4883" fill="#FF7700" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M788.1143,86.9883 L780.3945,86.9883 L780.3945,74.5952 L788.1143,74.5952 L788.1143,76.7534 L782.8433,76.7534 L782.8433,79.4263 L787.6162,79.4263 L787.6162,81.5845 L782.8433,81.5845 L782.8433,84.8301 L788.1143,84.8301 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="52" x="827" y="77.5352">«Entity»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="109" x="798.5" y="94.0234">AbstractProcess</text><!--MD5=[2cefc0f9a4110b5d4a02b2ea4273db70]
+class TimeConstrainedProcessTrackerRepository--><rect fill="#FFFFFF" height="42.9766" id="TimeConstrainedProcessTrackerRepository" style="stroke: #64B5F6; stroke-width: 1.5;" width="327" x="407.5" y="59"/><rect fill="#FFFFFF" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="327" x="407.5" y="59"/><ellipse cx="422.5" cy="80.4883" fill="#E2B8B8" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M423.1987,81.1362 Q423.564,81.2109 423.8337,81.4807 Q424.1035,81.7505 424.4937,82.5308 L426.7349,86.9883 L424.0454,86.9883 L422.5513,83.8589 Q422.4849,83.7261 422.377,83.4937 Q421.7212,82.0908 420.833,82.0908 L420.0527,82.0908 L420.0527,86.9883 L417.604,86.9883 L417.604,74.5952 L421.1401,74.5952 Q423.5308,74.5952 424.5725,75.4419 Q425.6143,76.2886 425.6143,78.1978 Q425.6143,79.4761 424.9917,80.2314 Q424.3691,80.9868 423.1987,81.1362 Z M420.0527,76.6538 L420.0527,80.0322 L421.2065,80.0322 Q422.2109,80.0322 422.6467,79.6379 Q423.0825,79.2437 423.0825,78.3389 Q423.0825,77.4341 422.6509,77.0439 Q422.2192,76.6538 421.2065,76.6538 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="87" x="540.5" y="77.5352">«Repository»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="295" x="436.5" y="94.0234">TimeConstrainedProcessTrackerRepository</text><!--MD5=[15166c432d964c3936aa61a1d2b866b3]
+class ConcurrencySafeEntity--><rect fill="#8ED4D1" height="42.9766" id="ConcurrencySafeEntity" style="stroke: #64B5F6; stroke-width: 1.5;" width="186" x="946" y="59"/><rect fill="#8ED4D1" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="186" x="946" y="59"/><ellipse cx="961" cy="80.4883" fill="#FF7700" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M964.6143,86.9883 L956.8945,86.9883 L956.8945,74.5952 L964.6143,74.5952 L964.6143,76.7534 L959.3433,76.7534 L959.3433,79.4263 L964.1162,79.4263 L964.1162,81.5845 L959.3433,81.5845 L959.3433,84.8301 L964.6143,84.8301 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="52" x="1026" y="77.5352">«Entity»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="154" x="975" y="94.0234">ConcurrencySafeEntity</text><!--MD5=[c7400b2074cb87c830eb3caf35faef98]
+class TimeConstrainedProcessTracker--><rect fill="#861F1B" height="42.9766" id="TimeConstrainedProcessTracker" style="stroke: #64B5F6; stroke-width: 1.5;" width="254" x="552" y="162"/><rect fill="#861F1B" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="254" x="552" y="162"/><ellipse cx="567" cy="183.4883" fill="#148610" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M567.1133,188.4463 L569.2964,178.0952 L571.7617,178.0952 L568.8149,190.4883 L565.4199,190.4883 L562.4731,178.0952 L564.9385,178.0952 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="644" y="180.5352">«ValueObject»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="222" x="581" y="197.0234">TimeConstrainedProcessTracker</text><!--MD5=[31a603409538edf175a7244578f42c62]
+class AbstractQueryService--><rect fill="#FFFFFF" height="42.9766" id="AbstractQueryService" style="stroke: #64B5F6; stroke-width: 1.5;" width="178" x="1167" y="59"/><rect fill="#FFFFFF" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="178" x="1167" y="59"/><ellipse cx="1182" cy="80.4883" fill="#E2B8B8" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M1182.6987,81.1362 Q1183.064,81.2109 1183.3337,81.4807 Q1183.6035,81.7505 1183.9937,82.5308 L1186.2349,86.9883 L1183.5454,86.9883 L1182.0513,83.8589 Q1181.9849,83.7261 1181.877,83.4937 Q1181.2212,82.0908 1180.333,82.0908 L1179.5527,82.0908 L1179.5527,86.9883 L1177.104,86.9883 L1177.104,74.5952 L1180.6401,74.5952 Q1183.0308,74.5952 1184.0725,75.4419 Q1185.1143,76.2886 1185.1143,78.1978 Q1185.1143,79.4761 1184.4917,80.2314 Q1183.8691,80.9868 1182.6987,81.1362 Z M1179.5527,76.6538 L1179.5527,80.0322 L1180.7065,80.0322 Q1181.7109,80.0322 1182.1467,79.6379 Q1182.5825,79.2437 1182.5825,78.3389 Q1182.5825,77.4341 1182.1509,77.0439 Q1181.7192,76.6538 1180.7065,76.6538 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="87" x="1225.5" y="77.5352">«Repository»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="146" x="1196" y="94.0234">AbstractQueryService</text><!--MD5=[aab1df5de0f17d04b293fbf8b8dc9bd1]
+class IdentifiedValueObject--><rect fill="#861F1B" height="42.9766" id="IdentifiedValueObject" style="stroke: #64B5F6; stroke-width: 1.5;" width="179" x="949.5" y="162"/><rect fill="#861F1B" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="179" x="949.5" y="162"/><ellipse cx="964.5" cy="183.4883" fill="#148610" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M964.6133,188.4463 L966.7964,178.0952 L969.2617,178.0952 L966.3149,190.4883 L962.9199,190.4883 L959.9731,178.0952 L962.4385,178.0952 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="1004" y="180.5352">«ValueObject»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="147" x="978.5" y="197.0234">IdentifiedValueObject</text><!--MD5=[99ab8f3bb3e2a2e5c42b46170c27f845]
+class NotificationLogInfo--><rect fill="#861F1B" height="42.9766" id="NotificationLogInfo" style="stroke: #64B5F6; stroke-width: 1.5;" width="163" x="209.5" y="59"/><rect fill="#861F1B" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="163" x="209.5" y="59"/><ellipse cx="224.5" cy="80.4883" fill="#148610" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M224.6133,85.4463 L226.7964,75.0952 L229.2617,75.0952 L226.3149,87.4883 L222.9199,87.4883 L219.9731,75.0952 L222.4385,75.0952 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="256" y="77.5352">«ValueObject»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="131" x="238.5" y="94.0234">NotificationLogInfo</text><!--MD5=[508988a62c0ce3a173c238c9f3bd918f]
+class NotificationLog--><rect fill="#8ED4D1" height="42.9766" id="NotificationLog" style="stroke: #64B5F6; stroke-width: 1.5;" width="136" x="38" y="59"/><rect fill="#8ED4D1" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="136" x="38" y="59"/><ellipse cx="53" cy="80.4883" fill="#FF7700" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M56.6143,86.9883 L48.8945,86.9883 L48.8945,74.5952 L56.6143,74.5952 L56.6143,76.7534 L51.3433,76.7534 L51.3433,79.4263 L56.1162,79.4263 L56.1162,81.5845 L51.3433,81.5845 L51.3433,84.8301 L56.6143,84.8301 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="52" x="93" y="77.5352">«Entity»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="104" x="67" y="94.0234">NotificationLog</text><!--MD5=[58ebbee21a2e38fec7a49391cc61ce1a]
+class NotificationLogId--><rect fill="#861F1B" height="42.9766" id="NotificationLogId" style="stroke: #64B5F6; stroke-width: 1.5;" width="149" x="206.5" y="162"/><rect fill="#861F1B" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="149" x="206.5" y="162"/><ellipse cx="221.5" cy="183.4883" fill="#148610" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M221.6133,188.4463 L223.7964,178.0952 L226.2617,178.0952 L223.3149,190.4883 L219.9199,190.4883 L216.9731,178.0952 L219.4385,178.0952 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="96" x="246" y="180.5352">«ValueObject»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="117" x="235.5" y="197.0234">NotificationLogId</text><!--MD5=[76b5e19c9337179d2d7ae334371d68c8]
+class Notification--><rect fill="#8ED4D1" height="42.9766" id="Notification" style="stroke: #64B5F6; stroke-width: 1.5;" width="111" x="50.5" y="162"/><rect fill="#8ED4D1" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="111" x="50.5" y="162"/><ellipse cx="65.5" cy="183.4883" fill="#FF7700" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M69.1143,189.9883 L61.3945,189.9883 L61.3945,177.5952 L69.1143,177.5952 L69.1143,179.7534 L63.8433,179.7534 L63.8433,182.4263 L68.6162,182.4263 L68.6162,184.5845 L63.8433,184.5845 L63.8433,187.8301 L69.1143,187.8301 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="52" x="93" y="180.5352">«Entity»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="79" x="79.5" y="197.0234">Notification</text><!--MD5=[ca2d93c45117619035e2f39704bd7f41]
+class Validator--><rect fill="#2FD92A" height="42.9766" id="Validator" style="stroke: #64B5F6; stroke-width: 1.5;" width="129" x="1163.5" y="162"/><rect fill="#2FD92A" height="42.9766" style="stroke: #64B5F6; stroke-width: 1.5;" width="129" x="1163.5" y="162"/><ellipse cx="1178.5" cy="183.4883" fill="#C49AC3" rx="11" ry="11" style="stroke: #64B5F6; stroke-width: 1.0;"/><path d="M1177.7334,184.5513 Q1175.8823,183.8457 1175.2266,183.0696 Q1174.5708,182.2935 1174.5708,180.9819 Q1174.5708,179.2969 1175.6499,178.334 Q1176.729,177.3711 1178.6133,177.3711 Q1179.4683,177.3711 1180.3232,177.5662 Q1181.1782,177.7612 1182.0166,178.1431 L1182.0166,180.5337 Q1181.228,179.9775 1180.4146,179.687 Q1179.6011,179.3965 1178.8042,179.3965 Q1177.916,179.3965 1177.4429,179.7534 Q1176.9697,180.1104 1176.9697,180.7744 Q1176.9697,181.2891 1177.3142,181.6252 Q1177.6587,181.9614 1178.7544,182.3682 L1179.8086,182.7666 Q1181.3027,183.3145 1182.0083,184.2192 Q1182.7139,185.124 1182.7139,186.502 Q1182.7139,188.3779 1181.6057,189.3035 Q1180.4976,190.229 1178.2563,190.229 Q1177.335,190.229 1176.4094,190.009 Q1175.4839,189.7891 1174.6206,189.3574 L1174.6206,186.8257 Q1175.6001,187.5229 1176.5173,187.8633 Q1177.4346,188.2036 1178.3311,188.2036 Q1179.2358,188.2036 1179.7339,187.7927 Q1180.2319,187.3818 1180.2319,186.6431 Q1180.2319,186.0869 1179.8999,185.6677 Q1179.5679,185.2485 1178.937,185.0078 Z "/><text fill="#589DF6" font-family="sans-serif" font-size="14" font-style="italic" lengthAdjust="spacingAndGlyphs" textLength="101" x="1190.5" y="180.5352">«Specification»</text><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacingAndGlyphs" textLength="62" x="1210" y="197.0234">Validator</text><!--MD5=[a63251a1b853a5be57a681463f66ba29]
+link NotificationLog to Notification--><path d="M106,102.34 C106,102.34 106,156.69 106,156.69 " fill="none" id="NotificationLog-&gt;Notification" style="stroke: #008080; stroke-width: 1.0;"/><polygon fill="#008080" points="106,161.69,110,152.69,106,156.69,102,152.69,106,161.69" style="stroke: #008080; stroke-width: 1.0;"/><!--MD5=[23e6d084b7b24275553043d3f6752c26]
+link NotificationLog to NotificationLogId--><path d="M167.75,102.2 C167.75,132.55 167.75,184 167.75,184 C167.75,184 201.41,184 201.41,184 " fill="none" id="NotificationLog-&gt;NotificationLogId" style="stroke: #008080; stroke-width: 1.0;"/><polygon fill="#008080" points="206.41,184,197.41,180,201.41,184,197.41,188,206.41,184" style="stroke: #008080; stroke-width: 1.0;"/><!--MD5=[bc45397cc20c550540bda105fa0c7e99]
+link TimeConstrainedProcessTrackerRepository to TimeConstrainedProcessTracker--><path d="M643.25,102.34 C643.25,102.34 643.25,156.69 643.25,156.69 " fill="none" id="TimeConstrainedProcessTrackerRepository-&gt;TimeConstrainedProcessTracker" style="stroke: #008080; stroke-width: 1.0;"/><polygon fill="#008080" points="643.25,161.69,647.25,152.69,643.25,156.69,639.25,152.69,643.25,161.69" style="stroke: #008080; stroke-width: 1.0;"/><!--MD5=[bab865d7676951b1fae8e436ad16c2ba]
+link NotificationLogInfo to NotificationLogId--><path d="M258.17,102.34 C258.17,102.34 258.17,156.69 258.17,156.69 " fill="none" id="NotificationLogInfo-&gt;NotificationLogId" style="stroke: #008080; stroke-width: 1.0;"/><polygon fill="#008080" points="258.17,161.69,262.17,152.69,258.17,156.69,254.17,152.69,258.17,161.69" style="stroke: #008080; stroke-width: 1.0;"/><!--MD5=[9c91685b2529b979936c56ed7db54bee]
+link NotificationLogId to NotificationLogId--><path d="M306.83,161.96 C306.83,147.85 306.83,132 306.83,132 C306.83,132 364,132 364,132 C364,132 364,223 364,223 C364,223 281,223 281,223 C281,223 281,210.1 281,210.1 " fill="none" id="NotificationLogId-&gt;NotificationLogId" style="stroke: #008080; stroke-width: 1.0;"/><polygon fill="#008080" points="281,205.1,277,214.1,281,210.1,285,214.1,281,205.1" style="stroke: #008080; stroke-width: 1.0;"/><!--MD5=[df851f95bca4b3339ad0d9346b68acd4]
+link AbstractProcess to TimeConstrainedProcessTracker--><path d="M787.75,102.34 C787.75,102.34 787.75,156.69 787.75,156.69 " fill="none" id="AbstractProcess-&gt;TimeConstrainedProcessTracker" style="stroke: #008080; stroke-width: 1.0;"/><polygon fill="#008080" points="787.75,161.69,791.75,152.69,787.75,156.69,783.75,152.69,787.75,161.69" style="stroke: #008080; stroke-width: 1.0;"/><!--MD5=[56caa9f1e4f407f03a68407924a6cfdf]
+link ConcurrencySafeEntity to AbstractQueryService--><!--MD5=[e9712a8e0b73b663ea7475cf511ec1fa]
+link ConcurrencySafeEntity to IdentifiedValueObject--><!--MD5=[fceda0637a60a5ba30f279f6b23f4830]
+link IdentifiedValueObject to Validator--><!--MD5=[f79f404bf629d7c4a5e4df0d16dd65a9]
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam wrapWidth 200
+
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor  Teal
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+skinparam linetype ortho
+skinparam rectangle {
+ roundCorner 100
+}
+package iddd_agilepm <<Rectangle>> #8B9BAC{
+class AbstractProcess <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide AbstractProcess members
+
+class TimeConstrainedProcessTrackerRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide TimeConstrainedProcessTrackerRepository members
+
+class ConcurrencySafeEntity <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide ConcurrencySafeEntity members
+
+class TimeConstrainedProcessTracker <<(V,#148610) ValueObject>> #861F1B {}
+hide TimeConstrainedProcessTracker members
+
+class AbstractQueryService <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide AbstractQueryService members
+
+class IdentifiedValueObject <<(V,#148610) ValueObject>> #861F1B {}
+hide IdentifiedValueObject members
+
+class NotificationLogInfo <<(V,#148610) ValueObject>> #861F1B {}
+hide NotificationLogInfo members
+
+class NotificationLog <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide NotificationLog members
+
+class NotificationLogId <<(V,#148610) ValueObject>> #861F1B {}
+hide NotificationLogId members
+
+class Notification <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Notification members
+
+class Validator <<(S,#C49AC3) Specification>> #2FD92A{}
+hide Validator members
+
+}
+NotificationLog - -> Notification
+NotificationLog - -> NotificationLogId
+
+TimeConstrainedProcessTrackerRepository - -> TimeConstrainedProcessTracker
+
+NotificationLogInfo - -> NotificationLogId
+
+NotificationLogId - -> NotificationLogId
+
+AbstractProcess - -> TimeConstrainedProcessTracker
+
+
+@enduml
+
+PlantUML version 1.2020.01(Mon Feb 17 01:40:32 CST 2020)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Java Version: 11.0.2+9
+Operating System: Mac OS X
+Default Encoding: UTF-8
+Language: zh
+Country: CN
+--></g></svg>

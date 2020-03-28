@@ -1,0 +1,366 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam wrapWidth 200
+
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor  Teal
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+skinparam linetype ortho
+skinparam rectangle {
+ roundCorner 100
+}
+'!@Sketch
+package iddd_collaboration <<Rectangle>> #8B9BAC{
+class TranslatingCollaboratorService <<(D,#AF1603) DomainService>> #544E15 {}
+hide TranslatingCollaboratorService members
+
+class ForumRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide ForumRepository members
+
+class ForumApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide ForumApplicationService members
+
+class PostApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide PostApplicationService members
+
+class Post <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Post members
+
+class CalendarEntryData <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide CalendarEntryData members
+
+class CollaboratorRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide CollaboratorRepository members
+
+class PostContentAltered <<(T,#207EC4) Event>> #C45E24 {}
+hide PostContentAltered members
+
+class DiscussionStarted <<(T,#207EC4) Event>> #C45E24 {}
+hide DiscussionStarted members
+
+class EventStoreDiscussionRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide EventStoreDiscussionRepository members
+
+class PostRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide PostRepository members
+
+class Calendar <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Calendar members
+
+class DiscussionData <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide DiscussionData members
+
+class CalendarData <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide CalendarData members
+
+class Participant <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Participant members
+
+class Owner <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Owner members
+
+class PostData <<(V,#148610) ValueObject>> #861F1B {}
+hide PostData members
+
+class EventStoreForumRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide EventStoreForumRepository members
+
+class Alarm <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Alarm members
+
+class CalendarCreated <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarCreated members
+
+class ForumData <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide ForumData members
+
+class CalendarEntryDescriptionChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarEntryDescriptionChanged members
+
+class PostQueryService <<(D,#AF1603) DomainService>> #544E15 {}
+hide PostQueryService members
+
+class CalendarEntryRescheduled <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarEntryRescheduled members
+
+class CalendarRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide CalendarRepository members
+
+class DiscussionReopened <<(T,#207EC4) Event>> #C45E24 {}
+hide DiscussionReopened members
+
+class CalendarEntryRelocated <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarEntryRelocated members
+
+class DiscussionPostsData <<(V,#148610) ValueObject>> #861F1B {}
+hide DiscussionPostsData members
+
+class Discussion <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Discussion members
+
+class Moderator <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Moderator members
+
+class CalendarEntryQueryService <<(D,#AF1603) DomainService>> #544E15 {}
+hide CalendarEntryQueryService members
+
+class CalendarRenamed <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarRenamed members
+
+class ForumQueryService <<(D,#AF1603) DomainService>> #544E15 {}
+hide ForumQueryService members
+
+class CalendarQueryService <<(D,#AF1603) DomainService>> #544E15 {}
+hide CalendarQueryService members
+
+class ForumReopened <<(T,#207EC4) Event>> #C45E24 {}
+hide ForumReopened members
+
+class ForumStarted <<(T,#207EC4) Event>> #C45E24 {}
+hide ForumStarted members
+
+class Forum <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Forum members
+
+class DiscussionQueryService <<(D,#AF1603) DomainService>> #544E15 {}
+hide DiscussionQueryService members
+
+class CalendarSharerData <<(V,#148610) ValueObject>> #861F1B {}
+hide CalendarSharerData members
+
+class ForumDiscussionsData <<(V,#148610) ValueObject>> #861F1B {}
+hide ForumDiscussionsData members
+
+class ForumClosed <<(T,#207EC4) Event>> #C45E24 {}
+hide ForumClosed members
+
+class CalendarEntryRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide CalendarEntryRepository members
+
+class ForumSubjectChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide ForumSubjectChanged members
+
+class Creator <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Creator members
+
+class ForumIdentityService <<(D,#AF1603) DomainService>> #544E15 {}
+hide ForumIdentityService members
+
+class ForumDescriptionChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide ForumDescriptionChanged members
+
+class CalendarDescriptionChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarDescriptionChanged members
+
+class CalendarEntryInviteeData <<(V,#148610) ValueObject>> #861F1B {}
+hide CalendarEntryInviteeData members
+
+class CalendarEntryApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide CalendarEntryApplicationService members
+
+class CalendarEntryScheduled <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarEntryScheduled members
+
+class PostedToDiscussion <<(T,#207EC4) Event>> #C45E24 {}
+hide PostedToDiscussion members
+
+class CalendarApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide CalendarApplicationService members
+
+class CalendarShared <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarShared members
+
+class CalendarUnshared <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarUnshared members
+
+class DiscussionRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide DiscussionRepository members
+
+class CalendarEntryParticipantUninvited <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarEntryParticipantUninvited members
+
+class CalendarEntryParticipantInvited <<(T,#207EC4) Event>> #C45E24 {}
+hide CalendarEntryParticipantInvited members
+
+class CalendarIdentityService <<(D,#AF1603) DomainService>> #544E15 {}
+hide CalendarIdentityService members
+
+class DiscussionClosed <<(T,#207EC4) Event>> #C45E24 {}
+hide DiscussionClosed members
+
+class EventStorePostRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide EventStorePostRepository members
+
+class EventStoreCalendarRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide EventStoreCalendarRepository members
+
+class ForumModeratorChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide ForumModeratorChanged members
+
+class CalendarEntry <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide CalendarEntry members
+
+class Author <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Author members
+
+class EventStoreCalendarEntryRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide EventStoreCalendarEntryRepository members
+
+}
+'!@Relation
+Forum --> ForumDescriptionChanged
+Forum --> ForumReopened
+Forum --> ForumStarted
+Forum --> ForumIdentityService
+Forum --> ForumModeratorChanged
+Forum --> Creator
+Forum --> Post
+Forum --> Discussion
+Forum --> ForumSubjectChanged
+Forum --> ForumClosed
+Forum --> Author
+Forum --> Moderator
+
+CalendarCreated --> Owner
+
+CalendarEntry --> CalendarEntryDescriptionChanged
+CalendarEntry --> CalendarEntryParticipantInvited
+CalendarEntry --> CalendarEntryRelocated
+CalendarEntry --> CalendarEntryScheduled
+CalendarEntry --> Owner
+CalendarEntry --> Alarm
+CalendarEntry --> CalendarEntryParticipantUninvited
+CalendarEntry --> CalendarEntryRescheduled
+CalendarEntry --> Participant
+
+CalendarEntryApplicationService --> CollaboratorRepository
+CalendarEntryApplicationService --> CalendarEntryRepository
+CalendarEntryApplicationService --> Participant
+
+EventStorePostRepository --> Post
+
+CalendarEntryQueryService --> CalendarEntryData
+
+Post --> PostContentAltered
+Post --> Author
+Post --> PostedToDiscussion
+
+PostQueryService --> PostData
+
+DiscussionRepository --> Discussion
+
+EventStoreDiscussionRepository --> Discussion
+
+CalendarEntryRepository --> CalendarEntry
+
+CollaboratorRepository --> Owner
+CollaboratorRepository --> Creator
+CollaboratorRepository --> Author
+CollaboratorRepository --> Moderator
+CollaboratorRepository --> Participant
+
+CalendarEntryParticipantUninvited --> Participant
+
+ForumModeratorChanged --> Moderator
+
+Calendar --> CalendarCreated
+Calendar --> CalendarIdentityService
+Calendar --> CalendarUnshared
+Calendar --> CalendarEntry
+Calendar --> Owner
+Calendar --> CalendarDescriptionChanged
+Calendar --> CalendarRenamed
+Calendar --> Alarm
+Calendar --> CalendarShared
+Calendar --> Participant
+
+CalendarEntryScheduled --> Owner
+CalendarEntryScheduled --> Alarm
+CalendarEntryScheduled --> Participant
+
+TranslatingCollaboratorService --> Owner
+TranslatingCollaboratorService --> Creator
+TranslatingCollaboratorService --> Author
+TranslatingCollaboratorService --> Moderator
+TranslatingCollaboratorService --> Participant
+
+DiscussionPostsData --> PostData
+
+CalendarApplicationService --> CalendarIdentityService
+CalendarApplicationService --> CollaboratorRepository
+CalendarApplicationService --> CalendarEntryRepository
+CalendarApplicationService --> CalendarRepository
+CalendarApplicationService --> Participant
+
+ForumIdentityService --> PostRepository
+ForumIdentityService --> DiscussionRepository
+ForumIdentityService --> ForumRepository
+
+DiscussionStarted --> Author
+
+ForumStarted --> Creator
+ForumStarted --> Moderator
+
+CalendarIdentityService --> CalendarEntryRepository
+CalendarIdentityService --> CalendarRepository
+
+ForumApplicationService --> Forum
+ForumApplicationService --> DiscussionQueryService
+ForumApplicationService --> ForumQueryService
+ForumApplicationService --> CollaboratorRepository
+ForumApplicationService --> DiscussionRepository
+ForumApplicationService --> ForumIdentityService
+ForumApplicationService --> ForumRepository
+
+ForumQueryService --> ForumDiscussionsData
+ForumQueryService --> ForumData
+
+EventStoreCalendarRepository --> Calendar
+
+DiscussionQueryService --> DiscussionPostsData
+DiscussionQueryService --> DiscussionData
+
+PostRepository --> Post
+
+EventStoreCalendarEntryRepository --> CalendarEntry
+
+CalendarEntryRescheduled --> Alarm
+
+EventStoreForumRepository --> Forum
+
+CalendarEntryParticipantInvited --> Participant
+
+PostApplicationService --> PostRepository
+PostApplicationService --> CollaboratorRepository
+PostApplicationService --> ForumRepository
+
+ForumRepository --> Forum
+
+PostedToDiscussion --> Author
+
+Discussion --> DiscussionStarted
+Discussion --> ForumIdentityService
+Discussion --> Post
+Discussion --> DiscussionReopened
+Discussion --> DiscussionClosed
+Discussion --> Author
+
+CalendarRepository --> Calendar
+
+ForumDiscussionsData --> DiscussionData
+
+CalendarEntryData --> CalendarEntryInviteeData
+
+CalendarData --> CalendarSharerData
+
+CalendarQueryService --> CalendarData
+
+
+@enduml

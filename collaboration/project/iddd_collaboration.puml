@@ -1,0 +1,1644 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam package {
+backgroundColor #E3F2FD
+}
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor Gray
+    ActorBorderColor Gray
+    BackgroundColor #E3F2FD
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+left to right direction
+'!@Item
+ class com.saasovation.collaboration.domain.model.forum.Post<<Entity>> { 
+- Author author
+- String bodyText
+- Date changedOn
+- Date createdOn
+- DiscussionId discussionId
+- ForumId forumId
+- PostId postId
+- PostId replyToPostId
+- String subject
+- Tenant tenant
+- static final String MUTATOR_METHOD_NAME = "when"
+- static Map<String, Method> mutatorMethods =
+            new HashMap<String, Method>()
+- List<DomainEvent> mutatingEvents
+- int unmutatedVersion
++ Post(List<DomainEvent> anEventStream, int aStreamVersion) 
++ Author author() 
++ String bodyText() 
++ Date changedOn() 
++ Date createdOn() 
++ DiscussionId discussionId() 
++ ForumId forumId() 
++ PostId postId() 
++ PostId replyToPostId() 
++ String subject() 
++ Tenant tenant() 
+# Post(
+            Tenant aTenant,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            PostId aPostId,
+            Author anAuthor,
+            String aSubject,
+            String aBodyText) 
+# Post(
+            Tenant aTenant,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            PostId aReplyToPost,
+            PostId aPostId,
+            Author anAuthor,
+            String aSubject,
+            String aBodyText) 
+# Post() 
+# void alterPostContent(String aSubject, String aBodyText) 
+# void when(PostContentAltered anEvent) 
+# void when(PostedToDiscussion anEvent) 
+- void setAuthor(Author anAuthor) 
+- void setBodyText(String aBodyText) 
+- void setChangedOn(Date aChangedOnDate) 
+- void setCreatedOn(Date aCreatedOnDate) 
+- void setDiscussionId(DiscussionId aDiscussionId) 
+- void setForumId(ForumId aForumId) 
+- void setPostId(PostId aPostId) 
+- void setReplyToPostId(PostId aReplyToPostId) 
+- void setSubject(String aSubject) 
+- void setTenant(Tenant aTenant) 
+}
+ class com.saasovation.collaboration.domain.model.collaborator.Author<<Entity>> { 
+- static final long serialVersionUID = 1L
+- String emailAddress
+- String identity
+- String name
++ Author(String anIdentity, String aName, String anEmailAddress) 
+# Author() 
+# int hashPrimeValue() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarEntryParticipantUninvited<<Event>> { 
+- CalendarEntryId calendarEntryId
+- CalendarId calendarId
+- int eventVersion
+- Date occurredOn
+- Participant participant
+- Tenant tenant
++ CalendarEntryParticipantUninvited(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            CalendarEntryId aCalendarEntryId,
+            Participant aParticipant) 
++ CalendarEntryId calendarEntryId() 
++ CalendarId calendarId() 
++ int eventVersion() 
++ Date occurredOn() 
++ Participant participant() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.forum.ForumModeratorChanged<<Event>> { 
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Moderator moderator
+- Date occurredOn
+- Tenant tenant
++ ForumModeratorChanged(
+            Tenant aTenant,
+            ForumId aForumId,
+            Moderator aModerator,
+            String anExclusiveOwner) 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Moderator moderator() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.forum.data.DiscussionData<<Entity>> { 
+- String authorEmailAddress
+- String authorIdentity
+- String authorName
+- boolean closed
+- String discussionId
+- String exclusiveOwner
+- String forumId
+- String subject
+- String tenantId
++ DiscussionData() 
++ String getAuthorEmailAddress() 
++ void setAuthorEmailAddress(String authorEmailAddress) 
++ String getAuthorIdentity() 
++ void setAuthorIdentity(String authorIdentity) 
++ String getAuthorName() 
++ void setAuthorName(String authorName) 
++ boolean isClosed() 
++ void setClosed(boolean closed) 
++ String getDiscussionId() 
++ void setDiscussionId(String discussionId) 
++ String getExclusiveOwner() 
++ void setExclusiveOwner(String exclusiveOwner) 
++ String getForumId() 
++ void setForumId(String forumId) 
++ String getSubject() 
++ void setSubject(String subject) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreDiscussionRepository<<Repository>> { 
+- static final boolean FOR_LEVELDB = true
+- static final boolean FOR_MYSQL = false
+- EventStore eventStore
++ EventStoreDiscussionRepository() 
++ Discussion discussionOfId(Tenant aTenant, DiscussionId aDiscussionId) 
++ DiscussionId nextIdentity() 
++ void save(Discussion aDiscussion) 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarRenamed<<Event>> { 
+- CalendarId calendarId
+- String description
+- int eventVersion
+- String name
+- Date occurredOn
+- Tenant tenant
++ CalendarRenamed(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            String aName,
+            String aDescription) 
++ CalendarId calendarId() 
++ String description() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.forum.data.PostData<<ValueObject>> { 
+- String authorEmailAddress
+- String authorIdentity
+- String authorName
+- String bodyText
+- Date changedOn
+- Date createdOn
+- String discussionId
+- String forumId
+- String postId
+- String replyToPostId
+- String subject
+- String tenantId
++ PostData() 
++ String getAuthorEmailAddress() 
++ void setAuthorEmailAddress(String authorEmailAddress) 
++ String getAuthorIdentity() 
++ void setAuthorIdentity(String authorIdentity) 
++ String getAuthorName() 
++ void setAuthorName(String authorName) 
++ String getBodyText() 
++ void setBodyText(String bodyText) 
++ Date getChangedOn() 
++ void setChangedOn(Date changedOn) 
++ Date getCreatedOn() 
++ void setCreatedOn(Date createdOn) 
++ String getDiscussionId() 
++ void setDiscussionId(String discussionId) 
++ String getForumId() 
++ void setForumId(String forumId) 
++ String getPostId() 
++ void setPostId(String postId) 
++ String getReplyToPostId() 
++ void setReplyToPostId(String replyToPostId) 
++ String getSubject() 
++ void setSubject(String subject) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.application.calendar.data.CalendarEntryData<<Entity>> { 
+- int alarmAlarmUnits
+- String alarmAlarmUnitsType
+- String calendarEntryId
+- String calendarId
+- String description
+- Set<CalendarEntryInviteeData> invitees
+- String location
+- String ownerEmailAddress
+- String ownerIdentity
+- String ownerName
+- Date repetitionEnds
+- String repetitionType
+- String tenantId
+- Date timeSpanBegins
+- Date timeSpanEnds
++ CalendarEntryData() 
++ int getAlarmAlarmUnits() 
++ void setAlarmAlarmUnits(int alarmAlarmUnits) 
++ String getAlarmAlarmUnitsType() 
++ void setAlarmAlarmUnitsType(String alarmAlarmUnitsType) 
++ String getCalendarEntryId() 
++ void setCalendarEntryId(String calendarEntryId) 
++ String getCalendarId() 
++ void setCalendarId(String calendarId) 
++ String getDescription() 
++ void setDescription(String description) 
++ Set<CalendarEntryInviteeData> getInvitees() 
++ void setInvitees(Set<CalendarEntryInviteeData> invitees) 
++ String getLocation() 
++ void setLocation(String location) 
++ String getOwnerEmailAddress() 
++ void setOwnerEmailAddress(String ownerEmailAddress) 
++ String getOwnerIdentity() 
++ void setOwnerIdentity(String ownerIdentity) 
++ String getOwnerName() 
++ void setOwnerName(String ownerName) 
++ Date getRepetitionEnds() 
++ void setRepetitionEnds(Date repetitionEnds) 
++ String getRepetitionType() 
++ void setRepetitionType(String repetitionType) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
++ Date getTimeSpanBegins() 
++ void setTimeSpanBegins(Date timeSpanBegins) 
++ Date getTimeSpanEnds() 
++ void setTimeSpanEnds(Date timeSpanEnds) 
+}
+ class com.saasovation.collaboration.application.calendar.data.CalendarData<<Entity>> { 
+- String calendarId
+- String description
+- String name
+- String ownerEmailAddress
+- String ownerIdentity
+- String ownerName
+- Set<CalendarSharerData> sharers
+- String tenantId
++ CalendarData() 
++ String getCalendarId() 
++ void setCalendarId(String calendarId) 
++ String getDescription() 
++ void setDescription(String description) 
++ String getName() 
++ void setName(String name) 
++ String getOwnerEmailAddress() 
++ void setOwnerEmailAddress(String ownerEmailAddress) 
++ String getOwnerIdentity() 
++ void setOwnerIdentity(String ownerIdentity) 
++ String getOwnerName() 
++ void setOwnerName(String ownerName) 
++ Set<CalendarSharerData> getSharers() 
++ void setSharers(Set<CalendarSharerData> sharers) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.application.calendar.data.CalendarEntryInviteeData<<ValueObject>> { 
+- String calendarEntryId
+- String participantEmailAddress
+- String participantIdentity
+- String participantName
+- String tenantId
++ CalendarEntryInviteeData() 
++ String getCalendarEntryId() 
++ void setCalendarEntryId(String calendarEntryId) 
++ String getParticipantEmailAddress() 
++ void setParticipantEmailAddress(String participantEmailAddress) 
++ String getParticipantIdentity() 
++ void setParticipantIdentity(String participantIdentity) 
++ String getParticipantName() 
++ void setParticipantName(String participantName) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.domain.model.forum.DiscussionStarted<<Event>> { 
+- Author author
+- DiscussionId discussionId
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Date occurredOn
+- String subject
+- Tenant tenant
++ DiscussionStarted(
+            Tenant aTenant,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            Author anAuthor,
+            String aSubject,
+            String anExclusiveOwner) 
++ Author author() 
++ DiscussionId discussionId() 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Date occurredOn() 
++ String subject() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.forum.PostContentAltered<<Event>> { 
+- String bodyText
+- DiscussionId discussionId
+- int eventVersion
+- ForumId forumId
+- Date occurredOn
+- PostId postId
+- String subject
+- Tenant tenant
++ PostContentAltered(
+            Tenant aTenant,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            PostId aPostId,
+            String aSubject,
+            String aBodyText) 
++ String bodyText() 
++ DiscussionId discussionId() 
++ int eventVersion() 
++ ForumId forumId() 
++ Date occurredOn() 
++ PostId postId() 
++ String subject() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.forum.PostQueryService<<DomainService>> { 
+- DataSource dataSource
++ PostQueryService(DataSource aDataSource) 
++ Collection<PostData> allPostsDataOfDiscussion(String aTenantId, String aDiscussionId) 
++ PostData postDataOfId(String aTenantId, String aPostId) 
+}
+ class com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreForumRepository<<Repository>> { 
+- static final boolean FOR_LEVELDB = true
+- static final boolean FOR_MYSQL = false
+- EventStore eventStore
++ EventStoreForumRepository() 
++ Forum forumOfId(Tenant aTenant, ForumId aForumId) 
++ ForumId nextIdentity() 
++ void save(Forum aForum) 
+}
+ class com.saasovation.collaboration.domain.model.forum.ForumClosed<<Event>> { 
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Date occurredOn
+- Tenant tenant
++ ForumClosed(Tenant aTenant, ForumId aForumId, String anExclusiveOwner) 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.calendar.CalendarEntryApplicationService<<DomainService>> { 
+- CalendarEntryRepository calendarEntryRepository
+- CollaboratorRepository collaboratorService
++ CalendarEntryApplicationService(
+            CalendarEntryRepository aCalendarEntryRepository,
+            CollaboratorRepository aCollaboratorService) 
++ void changeCalendarEntryDescription(
+            String aTenantId,
+            String aCalendarEntryId,
+            String aDescription) 
++ void inviteCalendarEntryParticipant(
+            String aTenantId,
+            String aCalendarEntryId,
+            Set<String> aParticipantsToInvite) 
++ void relocateCalendarEntry(
+            String aTenantId,
+            String aCalendarEntryId,
+            String aLocation) 
++ void rescheduleCalendarEntry(
+            String aTenantId,
+            String aCalendarEntryId,
+            String aDescription,
+            String aLocation,
+            Date aTimeSpanBegins,
+            Date aTimeSpanEnds,
+            String aRepeatType,
+            Date aRepeatEndsOnDate,
+            String anAlarmType,
+            int anAlarmUnits) 
++ void uninviteCalendarEntryParticipant(
+            String aTenantId,
+            String aCalendarEntryId,
+            Set<String> aParticipantsToInvite) 
+- CalendarEntryRepository calendarEntryRepository() 
+- CollaboratorRepository collaboratorService() 
+- Set<Participant> inviteesFrom(
+            Tenant aTenant,
+            Set<String> aParticipantsToInvite) 
+}
+ class com.saasovation.collaboration.domain.model.forum.Discussion<<Entity>> { 
+- Author author
+- boolean closed
+- DiscussionId discussionId
+- String exclusiveOwner
+- ForumId forumId
+- String subject
+- Tenant tenant
+- static final String MUTATOR_METHOD_NAME = "when"
+- static Map<String, Method> mutatorMethods =
+            new HashMap<String, Method>()
+- List<DomainEvent> mutatingEvents
+- int unmutatedVersion
++ Discussion(List<DomainEvent> anEventStream, int aStreamVersion) 
++ Author author() 
++ void close() 
++ boolean isClosed() 
++ DiscussionId discussionId() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Post post(
+            ForumIdentityService aForumIdentityService,
+            Author anAuthor,
+            String aSubject,
+            String aBodyText) 
++ Post post(
+            ForumIdentityService aForumIdentityService,
+            PostId aReplyToPost,
+            Author anAuthor,
+            String aSubject,
+            String aBodyText) 
++ void reopen() 
++ String subject() 
++ Tenant tenant() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Discussion(
+            Tenant aTenantId,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            Author anAuthor,
+            String aSubject,
+            String anExclusiveOwner) 
+# Discussion() 
+# void when(DiscussionClosed anEvent) 
+# void when(DiscussionReopened anEvent) 
+# void when(DiscussionStarted anEvent) 
+- void setAuthor(Author author) 
+- void setClosed(boolean isClosed) 
+- void setDiscussionId(DiscussionId aDiscussionId) 
+- void setExclusiveOwner(String anExclusiveOwner) 
+- void setForumId(ForumId aForumId) 
+- void setSubject(String aSubject) 
+- void setTenant(Tenant aTenant) 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarShared<<Event>> { 
+- CalendarId calendarId
+- CalendarSharer calendarSharer
+- int eventVersion
+- String name
+- Date occurredOn
+- Tenant tenant
++ CalendarShared(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            String aName,
+            CalendarSharer aCalendarSharer) 
++ CalendarId calendarId() 
++ CalendarSharer calendarSharer() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarCreated<<Event>> { 
+- CalendarId calendarId
+- String description
+- int eventVersion
+- String name
+- Date occurredOn
+- Owner owner
+- Set<CalendarSharer> sharedWith
+- Tenant tenant
++ CalendarCreated(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            String aName,
+            String aDescription,
+            Owner anOwner,
+            Set<CalendarSharer> aSharedWith) 
++ CalendarId calendarId() 
++ String description() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ Owner owner() 
++ Set<CalendarSharer> sharedWith() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.calendar.CalendarEntryQueryService<<DomainService>> { 
+- DataSource dataSource
++ CalendarEntryQueryService(DataSource aDataSource) 
++ CalendarEntryData calendarEntryDataOfId(String aTenantId, String aCalendarEntryId) 
++ Collection<CalendarEntryData> calendarEntryDataOfCalendarId(
+            String aTenantId,
+            String aCalendarId) 
++ Collection<CalendarEntryData> timeSpanningCalendarEntries(
+            String aTenantId,
+            String aCalendarId,
+            Date aTimeSpanBegins,
+            Date aTimeSpanEnds) 
+}
+ class com.saasovation.collaboration.application.forum.ForumApplicationService<<DomainService>> { 
+- CollaboratorRepository collaboratorService
+- DiscussionQueryService discussionQueryService
+- DiscussionRepository discussionRepository
+- ForumIdentityService forumIdentityService
+- ForumQueryService forumQueryService
+- ForumRepository forumRepository
++ ForumApplicationService(
+            ForumQueryService aForumQueryService,
+            ForumRepository aForumRepository,
+            ForumIdentityService aForumIdentityService,
+            DiscussionQueryService aDiscussionQueryService,
+            DiscussionRepository aDiscussionRepository,
+            CollaboratorRepository aCollaboratorService) 
++ void assignModeratorToForum(
+            String aTenantId,
+            String aForumId,
+            String aModeratorId) 
++ void changeForumDescription(
+            String aTenantId,
+            String aForumId,
+            String aDescription) 
++ void changeForumSubject(
+            String aTenantId,
+            String aForumId,
+            String aSubject) 
++ void closeForum(
+            String aTenantId,
+            String aForumId) 
++ void reopenForum(
+            String aTenantId,
+            String aForumId) 
++ void startForum(
+            String aTenantId,
+            String aCreatorId,
+            String aModeratorId,
+            String aSubject,
+            String aDescription,
+            ForumCommandResult aResult) 
++ void startExclusiveForum(
+            String aTenantId,
+            String anExclusiveOwner,
+            String aCreatorId,
+            String aModeratorId,
+            String aSubject,
+            String aDescription,
+            ForumCommandResult aResult) 
++ void startExclusiveForumWithDiscussion(
+            String aTenantId,
+            String anExclusiveOwner,
+            String aCreatorId,
+            String aModeratorId,
+            String anAuthorId,
+            String aForumSubject,
+            String aForumDescription,
+            String aDiscussionSubject,
+            ForumCommandResult aResult) 
+- CollaboratorRepository collaboratorService() 
+- DiscussionQueryService discussionQueryService() 
+- DiscussionRepository discussionRepository() 
+- ForumIdentityService forumIdentityService() 
+- ForumQueryService forumQueryService() 
+- ForumRepository forumRepository() 
+- Forum startNewForum(
+            Tenant aTenant,
+            String aCreatorId,
+            String aModeratorId,
+            String aSubject,
+            String aDescription,
+            String anExclusiveOwner) 
+}
+ class com.saasovation.collaboration.application.forum.ForumQueryService<<DomainService>> { 
+- DataSource dataSource
++ ForumQueryService(DataSource aDataSource) 
++ Collection<ForumData> allForumsDataOfTenant(String aTenantId) 
++ ForumData forumDataOfId(String aTenantId, String aForumId) 
++ ForumDiscussionsData forumDiscussionsDataOfId(String aTenantId, String aForumId) 
++ String forumIdOfExclusiveOwner(String aTenantId, String anExclusiveOwner) 
+}
+ class com.saasovation.collaboration.domain.model.forum.DiscussionReopened<<Event>> { 
+- DiscussionId discussionId
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Date occurredOn
+- Tenant tenant
++ DiscussionReopened(
+            Tenant aTenant,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            String anExclusiveOwner) 
++ DiscussionId discussionId() 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ interface com.saasovation.collaboration.domain.model.calendar.CalendarEntryRepository<<Repository>> { 
++ CalendarEntry calendarEntryOfId(Tenant aTenant, CalendarEntryId aCalendarEntryId)
++ CalendarEntryId nextIdentity()
++ void save(CalendarEntry aCalendarEntry)
+}
+ class com.saasovation.collaboration.domain.model.collaborator.Creator<<Entity>> { 
+- static final long serialVersionUID = 1L
+- String emailAddress
+- String identity
+- String name
++ Creator(String anIdentity, String aName, String anEmailAddress) 
+# Creator() 
+# int hashPrimeValue() 
+}
+ class com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreCalendarEntryRepository<<Repository>> { 
+- static final boolean FOR_LEVELDB = true
+- static final boolean FOR_MYSQL = false
+- EventStore eventStore
++ EventStoreCalendarEntryRepository() 
++ CalendarEntry calendarEntryOfId(Tenant aTenant, CalendarEntryId aCalendarEntryId) 
++ CalendarEntryId nextIdentity() 
++ void save(CalendarEntry aCalendarEntry) 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarEntryRescheduled<<Event>> { 
+- Alarm alarm
+- CalendarEntryId calendarEntryId
+- CalendarId calendarId
+- int eventVersion
+- Date occurredOn
+- Repetition repetition
+- Tenant tenant
+- TimeSpan timeSpan
++ CalendarEntryRescheduled(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            CalendarEntryId aCalendarEntryId,
+            TimeSpan aTimeSpan,
+            Repetition aRepetition,
+            Alarm anAlarm) 
++ Alarm alarm() 
++ CalendarEntryId calendarEntryId() 
++ CalendarId calendarId() 
++ int eventVersion() 
++ Date occurredOn() 
++ Repetition repetition() 
++ Tenant tenant() 
++ TimeSpan timeSpan() 
+}
+ interface com.saasovation.collaboration.domain.model.forum.ForumRepository<<Repository>> { 
++ Forum forumOfId(Tenant aTenant, ForumId aForumId)
++ ForumId nextIdentity()
++ void save(Forum aForum)
+}
+ class com.saasovation.collaboration.domain.model.forum.PostedToDiscussion<<Event>> { 
+- Author author
+- String bodyText
+- DiscussionId discussionId
+- int eventVersion
+- ForumId forumId
+- Date occurredOn
+- PostId postId
+- PostId replyToPost
+- String subject
+- Tenant tenant
++ PostedToDiscussion(
+            Tenant aTenant,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            PostId aReplyToPostId,
+            PostId aPostId,
+            Author anAuthor,
+            String aSubject,
+            String aBodyText) 
++ Author author() 
++ String bodyText() 
++ DiscussionId discussionId() 
++ int eventVersion() 
++ ForumId forumId() 
++ Date occurredOn() 
++ PostId postId() 
++ PostId replyToPost() 
++ String subject() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.calendar.data.CalendarSharerData<<ValueObject>> { 
+- String calendarId
+- String participantEmailAddress
+- String participantIdentity
+- String participantName
+- String tenantId
++ CalendarSharerData() 
++ String getCalendarId() 
++ void setCalendarId(String calendarId) 
++ String getParticipantEmailAddress() 
++ void setParticipantEmailAddress(String participantEmailAddress) 
++ String getParticipantIdentity() 
++ void setParticipantIdentity(String participantIdentity) 
++ String getParticipantName() 
++ void setParticipantName(String participantName) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarEntryRelocated<<Event>> { 
+- CalendarEntryId calendarEntryId
+- CalendarId calendarId
+- int eventVersion
+- String location
+- Date occurredOn
+- Tenant tenant
++ CalendarEntryRelocated(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            CalendarEntryId aCalendarEntryId,
+            String aLocation) 
++ CalendarEntryId calendarEntryId() 
++ CalendarId calendarId() 
++ int eventVersion() 
++ String location() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.Calendar<<Entity>> { 
+- CalendarId calendarId
+- String description
+- String name
+- Owner owner
+- Set<CalendarSharer> sharedWith
+- Tenant tenant
+- static final String MUTATOR_METHOD_NAME = "when"
+- static Map<String, Method> mutatorMethods =
+            new HashMap<String, Method>()
+- List<DomainEvent> mutatingEvents
+- int unmutatedVersion
++ Calendar(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            String aName,
+            String aDescription,
+            Owner anOwner,
+            Set<CalendarSharer> aSharedWith) 
++ Calendar(List<DomainEvent> anEventStream, int aStreamVersion) 
++ Set<CalendarSharer> allSharedWith() 
++ CalendarId calendarId() 
++ void changeDescription(String aDescription) 
++ String description() 
++ String name() 
++ Owner owner() 
++ void rename(String aName) 
++ CalendarEntry scheduleCalendarEntry(
+            CalendarIdentityService aCalendarIdentityService,
+            String aDescription,
+            String aLocation,
+            Owner anOwner,
+            TimeSpan aTimeSpan,
+            Repetition aRepetition,
+            Alarm anAlarm,
+            Set<Participant> anInvitees) 
++ void shareCalendarWith(CalendarSharer aCalendarSharer) 
++ void unshareCalendarWith(CalendarSharer aCalendarSharer) 
++ Tenant tenant() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Calendar() 
+# void when(CalendarCreated anEvent) 
+# void when(CalendarDescriptionChanged anEvent) 
+# void when(CalendarRenamed anEvent) 
+# void when(CalendarShared anEvent) 
+# void when(CalendarUnshared anEvent) 
+- void setCalendarId(CalendarId calendarId) 
+- void setDescription(String description) 
+- void setName(String name) 
+- void setOwner(Owner owner) 
+- Set<CalendarSharer> sharedWith() 
+- void setSharedWith(Set<CalendarSharer> sharedWith) 
+- void setTenant(Tenant tenant) 
+}
+ class com.saasovation.collaboration.application.forum.data.ForumData<<Entity>> { 
+- boolean closed
+- String creatorEmailAddress
+- String creatorIdentity
+- String creatorName
+- String description
+- String exclusiveOwner
+- String forumId
+- String moderatorEmailAddress
+- String moderatorIdentity
+- String moderatorName
+- String subject
+- String tenantId
++ ForumData() 
++ boolean isClosed() 
++ void setClosed(boolean closed) 
++ String getCreatorEmailAddress() 
++ void setCreatorEmailAddress(String creatorEmailAddress) 
++ String getCreatorIdentity() 
++ void setCreatorIdentity(String creatorIdentity) 
++ String getCreatorName() 
++ void setCreatorName(String creatorName) 
++ String getDescription() 
++ void setDescription(String description) 
++ String getExclusiveOwner() 
++ void setExclusiveOwner(String exclusiveOwner) 
++ String getForumId() 
++ void setForumId(String forumId) 
++ String getModeratorEmailAddress() 
++ void setModeratorEmailAddress(String moderatorEmailAddress) 
++ String getModeratorIdentity() 
++ void setModeratorIdentity(String moderatorIdentity) 
++ String getModeratorName() 
++ void setModeratorName(String moderatorName) 
++ String getSubject() 
++ void setSubject(String subject) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.port.adapter.persistence.repository.EventStorePostRepository<<Repository>> { 
+- static final boolean FOR_LEVELDB = true
+- static final boolean FOR_MYSQL = false
+- EventStore eventStore
++ EventStorePostRepository() 
++ Post postOfId(Tenant aTenantId, PostId aPostId) 
++ PostId nextIdentity() 
++ void save(Post aPost) 
+}
+ class com.saasovation.collaboration.application.calendar.CalendarApplicationService<<DomainService>> { 
+- CalendarRepository calendarRepository
+- CalendarEntryRepository calendarEntryRepository
+- CalendarIdentityService calendarIdentityService
+- CollaboratorRepository collaboratorService
++ CalendarApplicationService(
+            CalendarRepository aCalendarRepository,
+            CalendarEntryRepository aCalendarEntryRepository,
+            CalendarIdentityService aCalendarIdentityService,
+            CollaboratorRepository aCollaboratorService) 
++ void changeCalendarDescription(
+            String aTenantId,
+            String aCalendarId,
+            String aDescription) 
++ void createCalendar(
+            String aTenantId,
+            String aName,
+            String aDescription,
+            String anOwnerId,
+            Set<String> aParticipantsToSharedWith,
+            CalendarCommandResult aCalendarCommandResult) 
++ void renameCalendar(
+            String aTenantId,
+            String aCalendarId,
+            String aName) 
++ void scheduleCalendarEntry(
+            String aTenantId,
+            String aCalendarId,
+            String aDescription,
+            String aLocation,
+            String anOwnerId,
+            Date aTimeSpanBegins,
+            Date aTimeSpanEnds,
+            String aRepeatType,
+            Date aRepeatEndsOnDate,
+            String anAlarmType,
+            int anAlarmUnits,
+            Set<String> aParticipantsToInvite,
+            CalendarCommandResult aCalendarCommandResult) 
++ void shareCalendarWith(
+            String aTenantId,
+            String aCalendarId,
+            Set<String> aParticipantsToSharedWith) 
++ void unshareCalendarWith(
+            String aTenantId,
+            String aCalendarId,
+            Set<String> aParticipantsToUnsharedWith) 
+- CalendarRepository calendarRepository() 
+- CalendarEntryRepository calendarEntryRepository() 
+- CalendarIdentityService calendarIdentityService() 
+- CollaboratorRepository collaboratorService() 
+- Set<Participant> inviteesFrom(
+            Tenant aTenant,
+            Set<String> aParticipantsToInvite) 
+- Set<CalendarSharer> sharersFrom(
+            Tenant aTenant,
+            Set<String> aParticipantsToSharedWith) 
+}
+ class com.saasovation.collaboration.application.forum.data.DiscussionPostsData<<ValueObject>> { 
+- String authorEmailAddress
+- String authorIdentity
+- String authorName
+- boolean closed
+- String discussionId
+- String exclusiveOwner
+- String forumId
+- Set<PostData> posts
+- String subject
+- String tenantId
++ DiscussionPostsData() 
++ String getAuthorEmailAddress() 
++ void setAuthorEmailAddress(String authorEmailAddress) 
++ String getAuthorIdentity() 
++ void setAuthorIdentity(String authorIdentity) 
++ String getAuthorName() 
++ void setAuthorName(String authorName) 
++ boolean isClosed() 
++ void setClosed(boolean closed) 
++ String getDiscussionId() 
++ void setDiscussionId(String discussionId) 
++ String getExclusiveOwner() 
++ void setExclusiveOwner(String exclusiveOwner) 
++ String getForumId() 
++ void setForumId(String forumId) 
++ Set<PostData> getPosts() 
++ void setPosts(Set<PostData> posts) 
++ String getSubject() 
++ void setSubject(String subject) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.application.calendar.CalendarQueryService<<DomainService>> { 
+- DataSource dataSource
++ CalendarQueryService(DataSource aDataSource) 
++ Collection<CalendarData> allCalendarsDataOfTenant(String aTenantId) 
++ CalendarData calendarDataOfId(String aTenantId, String aCalendarId) 
+}
+ interface com.saasovation.collaboration.domain.model.forum.DiscussionRepository<<Repository>> { 
++ Discussion discussionOfId(Tenant aTenantId, DiscussionId aDiscussionId)
++ DiscussionId nextIdentity()
++ void save(Discussion aDiscussion)
+}
+ interface com.saasovation.collaboration.domain.model.calendar.CalendarRepository<<Repository>> { 
++ Calendar calendarOfId(Tenant aTenant, CalendarId aCalendarId)
++ CalendarId nextIdentity()
++ void save(Calendar aCalendar)
+}
+ class com.saasovation.collaboration.domain.model.forum.ForumIdentityService<<DomainService>> { 
+- DiscussionRepository discussionRepository
+- ForumRepository forumRepository
+- PostRepository postRepository
++ ForumIdentityService(
+            ForumRepository aForumRepository,
+            DiscussionRepository aDiscussionRepository,
+            PostRepository aPostRepository) 
++ DiscussionId nextDiscussionId() 
++ ForumId nextForumId() 
++ PostId nextPostId() 
+- DiscussionRepository discussionRepository() 
+- ForumRepository forumRepository() 
+- PostRepository postRepository() 
+}
+ class com.saasovation.collaboration.domain.model.collaborator.Moderator<<Entity>> { 
+- static final long serialVersionUID = 1L
+- String emailAddress
+- String identity
+- String name
++ Moderator(String anIdentity, String aName, String anEmailAddress) 
+# Moderator() 
+# int hashPrimeValue() 
+}
+ class com.saasovation.collaboration.domain.model.forum.ForumStarted<<Event>> { 
+- Creator creator
+- String description
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Moderator moderator
+- Date occurredOn
+- String subject
+- Tenant tenant
++ ForumStarted(
+            Tenant aTenant,
+            ForumId aForumId,
+            Creator aCreator,
+            Moderator aModerator,
+            String aSubject,
+            String aDescription,
+            String anExclusiveOwner) 
++ Creator creator() 
++ String description() 
++ String exclusiveOwner() 
++ int eventVersion() 
++ ForumId forumId() 
++ Moderator moderator() 
++ Date occurredOn() 
++ String subject() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.forum.DiscussionQueryService<<DomainService>> { 
+- DataSource dataSource
++ DiscussionQueryService(DataSource aDataSource) 
++ Collection<DiscussionData> allDiscussionsDataOfForum(String aTenantId, String aForumId) 
++ DiscussionData discussionDataOfId(String aTenantId, String aDiscussionId) 
++ String discussionIdOfExclusiveOwner(String aTenantId, String anExclusiveOwner) 
++ DiscussionPostsData discussionPostsDataOfId(String aTenantId, String aDiscussionId) 
+}
+ class com.saasovation.collaboration.domain.model.forum.ForumSubjectChanged<<Event>> { 
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Date occurredOn
+- String subject
+- Tenant tenant
++ ForumSubjectChanged(
+            Tenant aTenant,
+            ForumId aForumId,
+            String aSubject,
+            String anExclusiveOwner) 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Date occurredOn() 
++ String subject() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.forum.ForumReopened<<Event>> { 
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Date occurredOn
+- Tenant tenant
++ ForumReopened(Tenant aTenant, ForumId aForumId, String anExclusiveOwner) 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarIdentityService<<DomainService>> { 
+- CalendarRepository calendarRepository
+- CalendarEntryRepository calendarEntryRepository
++ CalendarIdentityService(
+            CalendarRepository aCalendarRepository,
+            CalendarEntryRepository aCalendarEntryRepository) 
++ CalendarId nextCalendarId() 
++ CalendarEntryId nextCalendarEntryId() 
+- CalendarRepository calendarRepository() 
+- CalendarEntryRepository calendarEntryRepository() 
+}
+ class com.saasovation.collaboration.application.forum.data.ForumDiscussionsData<<ValueObject>> { 
+- boolean closed
+- String creatorEmailAddress
+- String creatorIdentity
+- String creatorName
+- String description
+- String exclusiveOwner
+- Set<DiscussionData> discussions
+- String forumId
+- String moderatorEmailAddress
+- String moderatorIdentity
+- String moderatorName
+- String subject
+- String tenantId
++ ForumDiscussionsData() 
++ boolean isClosed() 
++ void setClosed(boolean closed) 
++ String getCreatorEmailAddress() 
++ void setCreatorEmailAddress(String creatorEmailAddress) 
++ String getCreatorIdentity() 
++ void setCreatorIdentity(String creatorIdentity) 
++ String getCreatorName() 
++ void setCreatorName(String creatorName) 
++ String getDescription() 
++ void setDescription(String description) 
++ Set<DiscussionData> getDiscussions() 
++ void setDiscussions(Set<DiscussionData> discussions) 
++ String getExclusiveOwner() 
++ void setExclusiveOwner(String exclusiveOwner) 
++ String getForumId() 
++ void setForumId(String forumId) 
++ String getModeratorEmailAddress() 
++ void setModeratorEmailAddress(String moderatorEmailAddress) 
++ String getModeratorIdentity() 
++ void setModeratorIdentity(String moderatorIdentity) 
++ String getModeratorName() 
++ void setModeratorName(String moderatorName) 
++ String getSubject() 
++ void setSubject(String subject) 
++ String getTenantId() 
++ void setTenantId(String tenantId) 
+}
+ class com.saasovation.collaboration.domain.model.collaborator.Owner<<Entity>> { 
+- static final long serialVersionUID = 1L
+- String emailAddress
+- String identity
+- String name
++ Owner(String anIdentity, String aName, String anEmailAddress) 
+# Owner() 
+# int hashPrimeValue() 
+}
+ class com.saasovation.collaboration.domain.model.collaborator.Participant<<Entity>> { 
+- static final long serialVersionUID = 1L
+- String emailAddress
+- String identity
+- String name
++ Participant(String anIdentity, String aName, String anEmailAddress) 
+# Participant() 
+# int hashPrimeValue() 
+}
+ class com.saasovation.collaboration.domain.model.forum.Forum<<Entity>> { 
+- boolean closed
+- Creator creator
+- String description
+- String exclusiveOwner
+- ForumId forumId
+- Moderator moderator
+- String subject
+- Tenant tenant
+- static final String MUTATOR_METHOD_NAME = "when"
+- static Map<String, Method> mutatorMethods =
+            new HashMap<String, Method>()
+- List<DomainEvent> mutatingEvents
+- int unmutatedVersion
++ Forum(
+            Tenant aTenant,
+            ForumId aForumId,
+            Creator aCreator,
+            Moderator aModerator,
+            String aSubject,
+            String aDescription,
+            String anExclusiveOwner) 
++ Forum(List<DomainEvent> anEventStream, int aStreamVersion) 
++ void assignModerator(Moderator aModerator) 
++ void changeDescription(String aDescription) 
++ void changeSubject(String aSubject) 
++ void close() 
++ boolean isClosed() 
++ Creator creator() 
++ String description() 
++ String exclusiveOwner() 
++ boolean hasExclusiveOwner() 
++ ForumId forumId() 
++ boolean isModeratedBy(Moderator aModerator) 
++ void moderatePost(
+            Post aPost,
+            Moderator aModerator,
+            String aSubject,
+            String aBodyText) 
++ Moderator moderator() 
++ void reopen() 
++ Discussion startDiscussion(
+            ForumIdentityService aForumIdentityService,
+            Author anAuthor,
+            String aSubject) 
++ Discussion startDiscussionFor(
+            ForumIdentityService aForumIdentityService,
+            Author anAuthor,
+            String aSubject,
+            String anExclusiveOwner) 
++ String subject() 
++ Tenant tenant() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Forum() 
+# void when(ForumClosed anEvent) 
+# void when(ForumDescriptionChanged anEvent) 
+# void when(ForumModeratorChanged anEvent) 
+# void when(ForumReopened anEvent) 
+# void when(ForumStarted anEvent) 
+# void when(ForumSubjectChanged anEvent) 
+- void setClosed(boolean isClosed) 
+- void setCreator(Creator aCreator) 
+- void setDescription(String aDescription) 
+- void setExclusiveOwner(String anExclusiveOwner) 
+- void setForumId(ForumId aForumId) 
+- void setModerator(Moderator aModerator) 
+- void setSubject(String aSubject) 
+- void setTenant(Tenant aTenant) 
+}
+ class com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreCalendarRepository<<Repository>> { 
+- static final boolean FOR_LEVELDB = true
+- static final boolean FOR_MYSQL = false
+- EventStore eventStore
++ EventStoreCalendarRepository() 
++ Calendar calendarOfId(Tenant aTenant, CalendarId aCalendarId) 
++ CalendarId nextIdentity() 
++ void save(Calendar aCalendar) 
+}
+ class com.saasovation.collaboration.port.adapter.service.TranslatingCollaboratorService<<DomainService>> { 
+- UserInRoleAdapter userInRoleAdapter
++ TranslatingCollaboratorService(UserInRoleAdapter aUserInRoleAdapter) 
++ Author authorFrom(Tenant aTenant, String anIdentity) 
++ Creator creatorFrom(Tenant aTenant, String anIdentity) 
++ Moderator moderatorFrom(Tenant aTenant, String anIdentity) 
++ Owner ownerFrom(Tenant aTenant, String anIdentity) 
++ Participant participantFrom(Tenant aTenant, String anIdentity) 
+- UserInRoleAdapter userInRoleAdapter() 
+}
+ interface com.saasovation.collaboration.domain.model.forum.PostRepository<<Repository>> { 
++ PostId nextIdentity()
++ Post postOfId(Tenant aTenant, PostId aPostId)
++ void save(Post aPost)
+}
+ class com.saasovation.collaboration.domain.model.forum.DiscussionClosed<<Event>> { 
+- DiscussionId discussionId
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Date occurredOn
+- Tenant tenant
++ DiscussionClosed(
+            Tenant aTenant,
+            ForumId aForumId,
+            DiscussionId aDiscussionId,
+            String anExclusiveOwner) 
++ DiscussionId discussionId() 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarEntryScheduled<<Event>> { 
+- Alarm alarm
+- CalendarEntryId calendarEntryId
+- CalendarId calendarId
+- String description
+- int eventVersion
+- Set<Participant> invitees
+- String location
+- Date occurredOn
+- Owner owner
+- Repetition repetition
+- Tenant tenant
+- TimeSpan timeSpan
++ CalendarEntryScheduled(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            CalendarEntryId aCalendarEntryId,
+            String aDescription,
+            String aLocation,
+            Owner anOwner,
+            TimeSpan aTimeSpan,
+            Repetition aRepetition,
+            Alarm anAlarm,
+            Set<Participant> anInvitees) 
++ Alarm alarm() 
++ CalendarEntryId calendarEntryId() 
++ CalendarId calendarId() 
++ String description() 
++ int eventVersion() 
++ Set<Participant> invitees() 
++ String location() 
++ Date occurredOn() 
++ Owner owner() 
++ Repetition repetition() 
++ Tenant tenant() 
++ TimeSpan timeSpan() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarDescriptionChanged<<Event>> { 
+- CalendarId calendarId
+- String description
+- int eventVersion
+- String name
+- Date occurredOn
+- Tenant tenant
++ CalendarDescriptionChanged(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            String aName,
+            String aDescription) 
++ CalendarId calendarId() 
++ String description() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.forum.ForumDescriptionChanged<<Event>> { 
+- String description
+- int eventVersion
+- String exclusiveOwner
+- ForumId forumId
+- Date occurredOn
+- Tenant tenant
++ ForumDescriptionChanged(
+            Tenant aTenant,
+            ForumId aForumId,
+            String aDescription,
+            String anExclusiveOwner) 
++ String description() 
++ int eventVersion() 
++ String exclusiveOwner() 
++ ForumId forumId() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.Alarm<<Entity>> { 
+- int alarmUnits
+- AlarmUnitsType alarmUnitsType
++ Alarm(AlarmUnitsType anAlarmUnitsType, int anAlarmUnits) 
++ int alarmUnits() 
++ AlarmUnitsType alarmUnitsType() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Alarm() 
+# void setAlarmUnits(int anAlarmUnits) 
+# void setAlarmUnitsType(AlarmUnitsType anAlarmUnitsType) 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarUnshared<<Event>> { 
+- CalendarId calendarId
+- CalendarSharer calendarSharer
+- int eventVersion
+- String name
+- Date occurredOn
+- Tenant tenant
++ CalendarUnshared(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            String aName,
+            CalendarSharer aCalendarSharer) 
++ CalendarId calendarId() 
++ CalendarSharer calendarSharer() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ interface com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository<<Repository>> { 
++ Author authorFrom(Tenant aTenant, String anIdentity)
++ Creator creatorFrom(Tenant aTenant, String anIdentity)
++ Moderator moderatorFrom(Tenant aTenant, String anIdentity)
++ Owner ownerFrom(Tenant aTenant, String anIdentity)
++ Participant participantFrom(Tenant aTenant, String anIdentity)
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarEntryDescriptionChanged<<Event>> { 
+- CalendarEntryId calendarEntryId
+- CalendarId calendarId
+- String description
+- int eventVersion
+- Date occurredOn
+- Tenant tenant
++ CalendarEntryDescriptionChanged(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            CalendarEntryId aCalendarEntryId,
+            String aDescription) 
++ CalendarEntryId calendarEntryId() 
++ CalendarId calendarId() 
++ String description() 
++ int eventVersion() 
++ Date occurredOn() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarEntry<<Entity>> { 
+- Alarm alarm
+- CalendarEntryId calendarEntryId
+- CalendarId calendarId
+- String description
+- Set<Participant> invitees
+- String location
+- Owner owner
+- Repetition repetition
+- Tenant tenant
+- TimeSpan timeSpan
+- static final String MUTATOR_METHOD_NAME = "when"
+- static Map<String, Method> mutatorMethods =
+            new HashMap<String, Method>()
+- List<DomainEvent> mutatingEvents
+- int unmutatedVersion
++ CalendarEntry(List<DomainEvent> anEventStream, int aStreamVersion) 
++ Alarm alarm() 
++ Set<Participant> allInvitees() 
++ CalendarEntryId calendarEntryId() 
++ CalendarId calendarId() 
++ String description() 
++ String location() 
++ Owner owner() 
++ Repetition repetition() 
++ void changeDescription(String aDescription) 
++ void invite(Participant aParticipant) 
++ void relocate(String aLocation) 
++ void reschedule(
+            String aDescription,
+            String aLocation,
+            TimeSpan aTimeSpan,
+            Repetition aRepetition,
+            Alarm anAlarm) 
++ Tenant tenant() 
++ TimeSpan timeSpan() 
++ void uninvite(Participant aParticipant) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# CalendarEntry(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            CalendarEntryId aCalendarEntryId,
+            String aDescription,
+            String aLocation,
+            Owner anOwner,
+            TimeSpan aTimeSpan,
+            Repetition aRepetition,
+            Alarm anAlarm,
+            Set<Participant> anInvitees) 
+# CalendarEntry() 
+# void when(CalendarEntryDescriptionChanged anEvent) 
+# void when(CalendarEntryParticipantInvited anEvent) 
+# void when(CalendarEntryRelocated anEvent) 
+# void when(CalendarEntryRescheduled anEvent) 
+# void when(CalendarEntryScheduled anEvent) 
+# void when(CalendarEntryParticipantUninvited anEvent) 
+- void setAlarm(Alarm anAlarm) 
+- void assertTimeSpans(Repetition aRepetition, TimeSpan aTimeSpan) 
+- void setCalendarEntryId(CalendarEntryId aCalendarEntryId) 
+- void setCalendarId(CalendarId aCalendarId) 
+- void setDescription(String aDescription) 
+- Set<Participant> invitees() 
+- void setInvitees(Set<Participant> anInvitees) 
+- void setLocation(String aLocation) 
+- void setOwner(Owner anOwner) 
+- void setRepetition(Repetition aRepetition) 
+- void setTenant(Tenant aTenant) 
+- void setTimeSpan(TimeSpan aTimeSpan) 
+}
+ class com.saasovation.collaboration.domain.model.calendar.CalendarEntryParticipantInvited<<Event>> { 
+- CalendarEntryId calendarEntryId
+- CalendarId calendarId
+- int eventVersion
+- Date occurredOn
+- Participant participant
+- Tenant tenant
++ CalendarEntryParticipantInvited(
+            Tenant aTenant,
+            CalendarId aCalendarId,
+            CalendarEntryId aCalendarEntryId,
+            Participant aParticipant) 
++ CalendarEntryId calendarEntryId() 
++ CalendarId calendarId() 
++ int eventVersion() 
++ Date occurredOn() 
++ Participant participant() 
++ Tenant tenant() 
+}
+ class com.saasovation.collaboration.application.forum.PostApplicationService<<DomainService>> { 
+- CollaboratorRepository collaboratorService
+- ForumRepository forumRepository
+- PostRepository postRepository
++ PostApplicationService(
+            PostRepository aPostRepository,
+            ForumRepository aForumRepository,
+            CollaboratorRepository aCollaboratorService) 
++ void moderatePost(
+            String aTenantId,
+            String aForumId,
+            String aPostId,
+            String aModeratorId,
+            String aSubject,
+            String aBodyText) 
+- CollaboratorRepository collaboratorService() 
+- ForumRepository forumRepository() 
+- PostRepository postRepository() 
+}
+'!@Relation
+com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreCalendarRepository --> com.saasovation.collaboration.domain.model.calendar.Calendar
+
+com.saasovation.collaboration.domain.model.calendar.CalendarCreated --> com.saasovation.collaboration.domain.model.collaborator.Owner
+
+com.saasovation.collaboration.application.calendar.data.CalendarEntryData --> com.saasovation.collaboration.application.calendar.data.CalendarEntryInviteeData
+
+com.saasovation.collaboration.domain.model.forum.ForumRepository --> com.saasovation.collaboration.domain.model.forum.Forum
+
+com.saasovation.collaboration.domain.model.forum.ForumStarted --> com.saasovation.collaboration.domain.model.collaborator.Creator
+com.saasovation.collaboration.domain.model.forum.ForumStarted --> com.saasovation.collaboration.domain.model.collaborator.Moderator
+
+com.saasovation.collaboration.application.forum.data.ForumDiscussionsData --> com.saasovation.collaboration.application.forum.data.DiscussionData
+
+com.saasovation.collaboration.domain.model.calendar.CalendarEntryRepository --> com.saasovation.collaboration.domain.model.calendar.CalendarEntry
+
+com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreDiscussionRepository --> com.saasovation.collaboration.domain.model.forum.Discussion
+
+com.saasovation.collaboration.application.calendar.data.CalendarData --> com.saasovation.collaboration.application.calendar.data.CalendarSharerData
+
+com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreForumRepository --> com.saasovation.collaboration.domain.model.forum.Forum
+
+com.saasovation.collaboration.port.adapter.persistence.repository.EventStorePostRepository --> com.saasovation.collaboration.domain.model.forum.Post
+
+com.saasovation.collaboration.application.calendar.CalendarApplicationService --> com.saasovation.collaboration.domain.model.calendar.CalendarIdentityService
+com.saasovation.collaboration.application.calendar.CalendarApplicationService --> com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository
+com.saasovation.collaboration.application.calendar.CalendarApplicationService --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryRepository
+com.saasovation.collaboration.application.calendar.CalendarApplicationService --> com.saasovation.collaboration.domain.model.calendar.CalendarRepository
+com.saasovation.collaboration.application.calendar.CalendarApplicationService --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.application.calendar.CalendarEntryApplicationService --> com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository
+com.saasovation.collaboration.application.calendar.CalendarEntryApplicationService --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryRepository
+com.saasovation.collaboration.application.calendar.CalendarEntryApplicationService --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.domain.model.calendar.CalendarRepository --> com.saasovation.collaboration.domain.model.calendar.Calendar
+
+com.saasovation.collaboration.application.forum.data.DiscussionPostsData --> com.saasovation.collaboration.application.forum.data.PostData
+
+com.saasovation.collaboration.port.adapter.service.TranslatingCollaboratorService --> com.saasovation.collaboration.domain.model.collaborator.Owner
+com.saasovation.collaboration.port.adapter.service.TranslatingCollaboratorService --> com.saasovation.collaboration.domain.model.collaborator.Creator
+com.saasovation.collaboration.port.adapter.service.TranslatingCollaboratorService --> com.saasovation.collaboration.domain.model.collaborator.Author
+com.saasovation.collaboration.port.adapter.service.TranslatingCollaboratorService --> com.saasovation.collaboration.domain.model.collaborator.Moderator
+com.saasovation.collaboration.port.adapter.service.TranslatingCollaboratorService --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.domain.model.calendar.CalendarEntryScheduled --> com.saasovation.collaboration.domain.model.collaborator.Owner
+com.saasovation.collaboration.domain.model.calendar.CalendarEntryScheduled --> com.saasovation.collaboration.domain.model.calendar.Alarm
+com.saasovation.collaboration.domain.model.calendar.CalendarEntryScheduled --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.port.adapter.persistence.repository.EventStoreCalendarEntryRepository --> com.saasovation.collaboration.domain.model.calendar.CalendarEntry
+
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.CalendarCreated
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.CalendarIdentityService
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.CalendarUnshared
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.CalendarEntry
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.collaborator.Owner
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.CalendarDescriptionChanged
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.CalendarRenamed
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.Alarm
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.calendar.CalendarShared
+com.saasovation.collaboration.domain.model.calendar.Calendar --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.application.forum.ForumQueryService --> com.saasovation.collaboration.application.forum.data.ForumDiscussionsData
+com.saasovation.collaboration.application.forum.ForumQueryService --> com.saasovation.collaboration.application.forum.data.ForumData
+
+com.saasovation.collaboration.domain.model.forum.ForumIdentityService --> com.saasovation.collaboration.domain.model.forum.PostRepository
+com.saasovation.collaboration.domain.model.forum.ForumIdentityService --> com.saasovation.collaboration.domain.model.forum.DiscussionRepository
+com.saasovation.collaboration.domain.model.forum.ForumIdentityService --> com.saasovation.collaboration.domain.model.forum.ForumRepository
+
+com.saasovation.collaboration.application.forum.PostQueryService --> com.saasovation.collaboration.application.forum.data.PostData
+
+com.saasovation.collaboration.domain.model.forum.Post --> com.saasovation.collaboration.domain.model.forum.PostContentAltered
+com.saasovation.collaboration.domain.model.forum.Post --> com.saasovation.collaboration.domain.model.collaborator.Author
+com.saasovation.collaboration.domain.model.forum.Post --> com.saasovation.collaboration.domain.model.forum.PostedToDiscussion
+
+com.saasovation.collaboration.domain.model.forum.DiscussionRepository --> com.saasovation.collaboration.domain.model.forum.Discussion
+
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryDescriptionChanged
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryParticipantInvited
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryRelocated
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryScheduled
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.collaborator.Owner
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.calendar.Alarm
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryParticipantUninvited
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryRescheduled
+com.saasovation.collaboration.domain.model.calendar.CalendarEntry --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.domain.model.forum.PostedToDiscussion --> com.saasovation.collaboration.domain.model.collaborator.Author
+
+com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository --> com.saasovation.collaboration.domain.model.collaborator.Owner
+com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository --> com.saasovation.collaboration.domain.model.collaborator.Creator
+com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository --> com.saasovation.collaboration.domain.model.collaborator.Author
+com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository --> com.saasovation.collaboration.domain.model.collaborator.Moderator
+com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.domain.model.calendar.CalendarIdentityService --> com.saasovation.collaboration.domain.model.calendar.CalendarEntryRepository
+com.saasovation.collaboration.domain.model.calendar.CalendarIdentityService --> com.saasovation.collaboration.domain.model.calendar.CalendarRepository
+
+com.saasovation.collaboration.domain.model.calendar.CalendarEntryRescheduled --> com.saasovation.collaboration.domain.model.calendar.Alarm
+
+com.saasovation.collaboration.domain.model.forum.DiscussionStarted --> com.saasovation.collaboration.domain.model.collaborator.Author
+
+com.saasovation.collaboration.application.calendar.CalendarEntryQueryService --> com.saasovation.collaboration.application.calendar.data.CalendarEntryData
+
+com.saasovation.collaboration.domain.model.forum.PostRepository --> com.saasovation.collaboration.domain.model.forum.Post
+
+com.saasovation.collaboration.application.forum.ForumApplicationService --> com.saasovation.collaboration.domain.model.forum.Forum
+com.saasovation.collaboration.application.forum.ForumApplicationService --> com.saasovation.collaboration.application.forum.DiscussionQueryService
+com.saasovation.collaboration.application.forum.ForumApplicationService --> com.saasovation.collaboration.application.forum.ForumQueryService
+com.saasovation.collaboration.application.forum.ForumApplicationService --> com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository
+com.saasovation.collaboration.application.forum.ForumApplicationService --> com.saasovation.collaboration.domain.model.forum.DiscussionRepository
+com.saasovation.collaboration.application.forum.ForumApplicationService --> com.saasovation.collaboration.domain.model.forum.ForumIdentityService
+com.saasovation.collaboration.application.forum.ForumApplicationService --> com.saasovation.collaboration.domain.model.forum.ForumRepository
+
+com.saasovation.collaboration.application.calendar.CalendarQueryService --> com.saasovation.collaboration.application.calendar.data.CalendarData
+
+com.saasovation.collaboration.application.forum.DiscussionQueryService --> com.saasovation.collaboration.application.forum.data.DiscussionPostsData
+com.saasovation.collaboration.application.forum.DiscussionQueryService --> com.saasovation.collaboration.application.forum.data.DiscussionData
+
+com.saasovation.collaboration.domain.model.calendar.CalendarEntryParticipantInvited --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.domain.model.forum.Discussion --> com.saasovation.collaboration.domain.model.forum.DiscussionStarted
+com.saasovation.collaboration.domain.model.forum.Discussion --> com.saasovation.collaboration.domain.model.forum.ForumIdentityService
+com.saasovation.collaboration.domain.model.forum.Discussion --> com.saasovation.collaboration.domain.model.forum.Post
+com.saasovation.collaboration.domain.model.forum.Discussion --> com.saasovation.collaboration.domain.model.forum.DiscussionReopened
+com.saasovation.collaboration.domain.model.forum.Discussion --> com.saasovation.collaboration.domain.model.forum.DiscussionClosed
+com.saasovation.collaboration.domain.model.forum.Discussion --> com.saasovation.collaboration.domain.model.collaborator.Author
+
+com.saasovation.collaboration.domain.model.calendar.CalendarEntryParticipantUninvited --> com.saasovation.collaboration.domain.model.collaborator.Participant
+
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.ForumDescriptionChanged
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.ForumReopened
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.ForumStarted
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.ForumIdentityService
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.ForumModeratorChanged
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.collaborator.Creator
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.Post
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.Discussion
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.ForumSubjectChanged
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.forum.ForumClosed
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.collaborator.Author
+com.saasovation.collaboration.domain.model.forum.Forum --> com.saasovation.collaboration.domain.model.collaborator.Moderator
+
+com.saasovation.collaboration.application.forum.PostApplicationService --> com.saasovation.collaboration.domain.model.forum.PostRepository
+com.saasovation.collaboration.application.forum.PostApplicationService --> com.saasovation.collaboration.domain.model.collaborator.CollaboratorRepository
+com.saasovation.collaboration.application.forum.PostApplicationService --> com.saasovation.collaboration.domain.model.forum.ForumRepository
+
+com.saasovation.collaboration.domain.model.forum.ForumModeratorChanged --> com.saasovation.collaboration.domain.model.collaborator.Moderator
+
+
+@enduml

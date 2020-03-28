@@ -1,0 +1,68 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam wrapWidth 200
+
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor  Teal
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+skinparam linetype ortho
+skinparam rectangle {
+ roundCorner 100
+}
+'!@Sketch
+package iddd_commom <<Rectangle>> #8B9BAC{
+class AbstractProcess <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide AbstractProcess members
+
+class TimeConstrainedProcessTrackerRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide TimeConstrainedProcessTrackerRepository members
+
+class ConcurrencySafeEntity <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide ConcurrencySafeEntity members
+
+class TimeConstrainedProcessTracker <<(V,#148610) ValueObject>> #861F1B {}
+hide TimeConstrainedProcessTracker members
+
+class AbstractQueryService <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide AbstractQueryService members
+
+class IdentifiedValueObject <<(V,#148610) ValueObject>> #861F1B {}
+hide IdentifiedValueObject members
+
+class NotificationLogInfo <<(V,#148610) ValueObject>> #861F1B {}
+hide NotificationLogInfo members
+
+class NotificationLog <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide NotificationLog members
+
+class NotificationLogId <<(V,#148610) ValueObject>> #861F1B {}
+hide NotificationLogId members
+
+class Notification <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Notification members
+
+class Validator <<(S,#C49AC3) Specification>> #2FD92A{}
+hide Validator members
+
+}
+'!@Relation
+NotificationLog --> Notification
+NotificationLog --> NotificationLogId
+
+TimeConstrainedProcessTrackerRepository --> TimeConstrainedProcessTracker
+
+NotificationLogInfo --> NotificationLogId
+
+NotificationLogId --> NotificationLogId
+
+AbstractProcess --> TimeConstrainedProcessTracker
+
+
+@enduml

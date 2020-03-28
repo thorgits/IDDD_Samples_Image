@@ -1,0 +1,1589 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam package {
+backgroundColor #E3F2FD
+}
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor Gray
+    ActorBorderColor Gray
+    BackgroundColor #E3F2FD
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+left to right direction
+'!@Item
+ interface com.saasovation.agilepm.domain.model.team.ProductOwnerRepository<<Repository>> { 
++ Collection<ProductOwner> allProductOwnersOfTenant(TenantId aTenantId)
++ ProductOwner productOwnerOfIdentity(TenantId aTenantId, String aUsername)
++ void remove(ProductOwner aProductOwner)
++ void removeAll(Collection<ProductOwner> aProductOwnerCollection)
++ void save(ProductOwner aProductOwner)
++ void saveAll(Collection<ProductOwner> aProductOwnerCollection)
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemSummarized<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- String summary
+- TenantId tenantId
++ BacklogItemSummarized(TenantId aTenantId, BacklogItemId aBacklogItemId, String aSummary) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ String summary() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductDiscussionRequested<<Event>> { 
+- String description
+- int eventVersion
+- String name
+- Date occurredOn
+- ProductId productId
+- ProductOwnerId productOwnerId
+- boolean requestingDiscussion
+- TenantId tenantId
++ ProductDiscussionRequested(
+            TenantId aTenantId,
+            ProductId aProductId,
+            ProductOwnerId aProductOwnerId,
+            String aName,
+            String aDescription,
+            boolean aRequestingDiscussion) 
++ String description() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ ProductId productId() 
++ ProductOwnerId productOwnerId() 
++ boolean isRequestingDiscussion() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskStatusChanged<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- TaskStatus status
+- TaskId taskId
+- TenantId tenantId
++ TaskStatusChanged(TenantId aTenantId, BacklogItemId aBacklogItemId, TaskId aTaskId, TaskStatus aStatus) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TaskStatus status() 
++ TaskId taskId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.team.TeamMember<<Event>> { 
+- MemberChangeTracker changeTracker
+- String emailAddress
+- boolean enabled = true
+- String firstName
+- String lastName
+- TenantId tenantId
+- String username
+- int concurrencyVersion
++ TeamMember(
+            TenantId aTenantId,
+            String aUsername,
+            String aFirstName,
+            String aLastName,
+            String anEmailAddress,
+            Date anInitializedOn) 
++ TeamMemberId teamMemberId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
+# TeamMember() 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductReleaseScheduled<<Event>> { 
+- Date begins
+- String description
+- int eventVersion
+- Date ends
+- String name
+- Date occurredOn
+- ProductId productId
+- ReleaseId releaseId
+- TenantId tenantId
++ ProductReleaseScheduled(
+            TenantId aTenantId,
+            ProductId aProductId,
+            ReleaseId aReleaseId,
+            String aName,
+            String aDescription,
+            Date aBegins,
+            Date anEnds) 
++ Date begins() 
++ String description() 
++ Date ends() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ ProductId productId() 
++ ReleaseId releaseId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.application.notification.NotificationApplicationService<<DomainService>> { 
+- NotificationPublisher notificationPublisher
++ NotificationApplicationService(NotificationPublisher aNotificationPublisher) 
++ void publishNotifications() 
+- NotificationPublisher notificationPublisher() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityTotals<<ValueObject>> { 
+- int totalBenefit
+- int totalCost
+- int totalPenalty
+- int totalRisk
+- int totalValue
++ BusinessPriorityTotals(
+            int aTotalBenefit,
+            int aTotalPenalty,
+            int aTotalValue,
+            int aTotalCost,
+            int aTotalRisk) 
++ BusinessPriorityTotals(BusinessPriorityTotals aBusinessPriorityTotals) 
++ int totalBenefit() 
++ int totalCost() 
++ int totalPenalty() 
++ int totalRisk() 
++ int totalValue() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- BusinessPriorityTotals() 
+- void setTotalBenefit(int aTotalBenefit) 
+- void setTotalCost(int aTotalCost) 
+- void setTotalPenalty(int aTotalPenalty) 
+- void setTotalRisk(int aTotalRisk) 
+- void setTotalValue(int aTotalValue) 
+}
+ class com.saasovation.agilepm.domain.model.tenant.TenantId<<ValueObject>> { 
+- String id
++ TenantId(String anId) 
++ TenantId(TenantId aTenantId) 
++ String id() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# TenantId() 
+- void setId(String anId) 
+}
+ class com.saasovation.agilepm.domain.model.team.Team<<AggregateRoot, Entity>> { 
+- String name
+- ProductOwner productOwner
+- Set<TeamMember> teamMembers
+- TenantId tenantId
+- int concurrencyVersion
++ Team(TenantId aTenantId, String aName, ProductOwner aProductOwner) 
++ Team(TenantId aTenantId, String aName) 
++ Set<TeamMember> allTeamMembers() 
++ void assignProductOwner(ProductOwner aProductOwner) 
++ void assignTeamMember(TeamMember aTeamMember) 
++ String name() 
++ boolean isTeamMember(TeamMember aTeamMember) 
++ ProductOwner productOwner() 
++ void removeTeamMember(TeamMember aTeamMember) 
++ TenantId tenantId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
+- Team() 
+- void setName(String aName) 
+- void setProductOwner(ProductOwner aProductOwner) 
+- Set<TeamMember> teamMembers() 
+- void setTeamMembers(Set<TeamMember> aTeamMembers) 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionRequested<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- ProductId productId
+- boolean requestingDiscussion
+- TenantId tenantId
++ BacklogItemDiscussionRequested(
+            TenantId aTenantId,
+            ProductId aProductId,
+            BacklogItemId aBacklogItemId,
+            boolean isRequestingDiscussion) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ ProductId productId() 
++ boolean isRequestingDiscussion() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStoryPointsAssigned<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- StoryPoints storyPoints
+- TenantId tenantId
++ BacklogItemStoryPointsAssigned(TenantId aTenantId, BacklogItemId aBacklogItemId, StoryPoints aStoryPoints) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ StoryPoints storyPoints() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemUncommitted<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
+- SprintId uncommittedFromSprintId
++ BacklogItemUncommitted(TenantId aTenantId, BacklogItemId aBacklogItemId, SprintId anUncommittedFromSprintId) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ SprintId uncommittedFromSprintId() 
+}
+ class com.saasovation.agilepm.domain.model.team.TeamMemberId<<ValueObject>> { 
+- String id
+- TenantId tenantId
++ TeamMemberId(TenantId aTenantId, String anId) 
++ TeamMemberId(TeamMemberId aTeamMemberId) 
++ String id() 
++ TenantId tenantId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- TeamMemberId() 
+- void setId(String anId) 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskRemoved<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- TaskId taskId
+- TenantId tenantId
++ TaskRemoved(TenantId aTenantId, BacklogItemId aBacklogItemId, TaskId aTaskId) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TaskId taskId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.team.ProductOwnerId<<ValueObject>> { 
+- String id
+- TenantId tenantId
++ ProductOwnerId(TenantId aTenantId, String anId) 
++ ProductOwnerId(ProductOwnerId aProductOwnerId) 
++ String id() 
++ TenantId tenantId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- ProductOwnerId() 
+- void setId(String anId) 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductDiscussionInitiated<<Event>> { 
+- int eventVersion
+- Date occurredOn
+- ProductDiscussion productDiscussion
+- ProductId productId
+- TenantId tenantId
++ ProductDiscussionInitiated(
+            TenantId aTenantId,
+            ProductId aProductId,
+            ProductDiscussion aProductDiscussion) 
++ int eventVersion() 
++ Date occurredOn() 
++ ProductDiscussion productDiscussion() 
++ ProductId productId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem<<AggregateRoot, Entity>> { 
+- String associatedIssueId
+- BacklogItemId backlogItemId
+- BusinessPriority businessPriority
+- String category
+- BacklogItemDiscussion discussion
+- String discussionInitiationId
+- ProductId productId
+- ReleaseId releaseId
+- SprintId sprintId
+- BacklogItemStatus status
+- String story
+- StoryPoints storyPoints
+- String summary
+- Set<Task> tasks
+- TenantId tenantId
+- BacklogItemType type
+- int concurrencyVersion
++ BacklogItem(
+            TenantId aTenantId,
+            ProductId aProductId,
+            BacklogItemId aBacklogItemId,
+            String aSummary,
+            String aCategory,
+            BacklogItemType aType,
+            BacklogItemStatus aStatus,
+            StoryPoints aStoryPoints) 
++ Set<Task> allTasks() 
++ boolean anyTaskHoursRemaining() 
++ String associatedIssueId() 
++ void associateWithIssue(String anIssueId) 
++ void assignBusinessPriority(BusinessPriority aBusinessPriority) 
++ void assignStoryPoints(StoryPoints aStoryPoints) 
++ void assignTaskVolunteer(TaskId aTaskId, TeamMember aVolunteer) 
++ BacklogItemId backlogItemId() 
++ BusinessPriority businessPriority() 
++ String category() 
++ void changeCategory(String aCategory) 
++ void changeTaskStatus(TaskId aTaskId, TaskStatus aStatus) 
++ void changeType(BacklogItemType aType) 
++ void commitTo(Sprint aSprint) 
++ void defineTask(TeamMember aVolunteer, String aName, String aDescription, int anHoursRemaining) 
++ void describeTask(TaskId aTaskId, String aDescription) 
++ BacklogItemDiscussion discussion() 
++ String discussionInitiationId() 
++ void failDiscussionInitiation() 
++ void initiateDiscussion(DiscussionDescriptor aDescriptor) 
++ void estimateTaskHoursRemaining(TaskId aTaskId, int anHoursRemaining) 
++ boolean hasBusinessPriority() 
++ void initiateDiscussion(BacklogItemDiscussion aDiscussion) 
++ boolean isCommittedToSprint() 
++ boolean isDone() 
++ boolean isPlanned() 
++ boolean isRemoved() 
++ boolean isScheduledForRelease() 
++ void markAsRemoved() 
++ ProductId productId() 
++ ReleaseId releaseId() 
++ void removeTask(TaskId aTaskId) 
++ void renameTask(TaskId aTaskId, String aName) 
++ void requestDiscussion(DiscussionAvailability aDiscussionAvailability) 
++ void scheduleFor(Release aRelease) 
++ SprintId sprintId() 
++ void startDiscussionInitiation(String aDiscussionInitiationId) 
++ String story() 
++ StoryPoints storyPoints() 
++ String summary() 
++ void summarize(String aSummary) 
++ Task task(TaskId aTaskId) 
++ void tellStory(String aStory) 
++ TenantId tenantId() 
++ int totalTaskHoursRemaining() 
++ BacklogItemType type() 
++ void uncommitFromSprint() 
++ void unscheduleFromRelease() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- BacklogItem() 
+- void setBacklogItemId(BacklogItemId aBacklogItemId) 
+- void setBusinessPriority(BusinessPriority aBusinessPriority) 
+- void setCategory(String aCategory) 
+- void setDiscussion(BacklogItemDiscussion aDiscussion) 
+- void setDiscussionInitiationId(String aDiscussionInitiationId) 
+- void setProductId(ProductId aProductId) 
+- void setReleaseId(ReleaseId aReleaseId) 
+- void setSprintId(SprintId aSprintId) 
+- BacklogItemStatus status() 
+- void elevateStatusWith(BacklogItemStatus aStatus) 
+- void setStatus(BacklogItemStatus aStatus) 
+- void setStory(String aStory) 
+- void setStoryPoints(StoryPoints aStoryPoints) 
+- void setSummary(String aSummary) 
+- Set<Task> tasks() 
+- void setTasks(Set<Task> aTasks) 
+- void setTenantId(TenantId aTenantId) 
+- void setType(BacklogItemType aType) 
+}
+ class com.saasovation.agilepm.application.product.backlogitem.BacklogItemApplicationService<<DomainService>> { 
+- BacklogItemRepository backlogItemRepository
++ BacklogItemApplicationService(
+            BacklogItemRepository aBacklogItemRepository) 
++ void backlogItemPlaceholderService() 
+- BacklogItemRepository backlogItemRepository() 
+}
+ class com.saasovation.agilepm.domain.model.product.release.ScheduledBacklogItem<<Entity>> { 
+- BacklogItemId backlogItemId
+- int ordering
+- ReleaseId releaseId
+- TenantId tenantId
+- int concurrencyVersion
++ BacklogItemId backlogItemId() 
++ int ordering() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# ScheduledBacklogItem(
+            TenantId aTenantId,
+            ReleaseId aReleaseId,
+            BacklogItemId aBacklogItemId,
+            int anOrdering) 
+# ScheduledBacklogItem(
+            TenantId aTenantId,
+            ReleaseId aReleaseId,
+            BacklogItemId aBacklogItemId) 
+# ScheduledBacklogItem() 
+# void reorderFrom(BacklogItemId anId, int anOrderOfPriority) 
+# void setOrdering(int anOrdering) 
+- void setBacklogItemId(BacklogItemId aBacklogItemId) 
+- ReleaseId releaseId() 
+- void setReleaseId(ReleaseId aReleaseId) 
+- TenantId tenantId() 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityRatings<<ValueObject>> { 
+- int benefit
+- int cost
+- int penalty
+- int risk
++ BusinessPriorityRatings(int aBenefit, int aPenalty, int aCost, int aRisk) 
++ BusinessPriorityRatings(BusinessPriorityRatings aBusinessPriorityRatings) 
++ BusinessPriorityRatings withAdjustedBenefit(int aBenefit) 
++ BusinessPriorityRatings withAdjustedCost(int aCost) 
++ BusinessPriorityRatings withAdjustedPenalty(int aPenalty) 
++ BusinessPriorityRatings withAdjustedRisk(int aRisk) 
++ int benefit() 
++ int cost() 
++ int penalty() 
++ int risk() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- BusinessPriorityRatings() 
+- void setBenefit(int aBenefit) 
+- void setCost(int aCost) 
+- void setPenalty(int aPenalty) 
+- void setRisk(int aRisk) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.Task<<AggregateRoot, Event>> { 
+- BacklogItemId backlogItemId
+- String description
+- List<EstimationLogEntry> estimationLog
+- int hoursRemaining
+- String name
+- TaskStatus status
+- TaskId taskId
+- TenantId tenantId
+- TeamMemberId volunteer
+- int concurrencyVersion
++ List<EstimationLogEntry> allEstimationLogEntries() 
++ String description() 
++ String name() 
++ TaskStatus status() 
++ TeamMemberId volunteer() 
+# void setVolunteer(TeamMemberId aVolunteer) 
++ boolean equals(Object anObject) 
++ int hashCode() 
+# Task(
+            TenantId aTenantId,
+            BacklogItemId aBacklogItemId,
+            TaskId aTaskId,
+            TeamMember aVolunteer,
+            String aName,
+            String aDescription,
+            int aHoursRemaining,
+            TaskStatus aStatus) 
+- Task() 
+# void assignVolunteer(TeamMember aVolunteer) 
+# void changeStatus(TaskStatus aStatus) 
+# void describeAs(String aDescription) 
+# void estimateHoursRemaining(int anHoursRemaining) 
+# void rename(String aName) 
+# BacklogItemId backlogItemId() 
+# void setBacklogItemId(BacklogItemId aBacklogItemId) 
+# void setDescription(String aDescription) 
+# List<EstimationLogEntry> estimationLog() 
+# void setEstimationLog(List<EstimationLogEntry> anEstimationLog) 
+# int hoursRemaining() 
+# void setHoursRemaining(int aHoursRemaining) 
+# void setName(String aName) 
+# void setStatus(TaskStatus aStatus) 
+# TaskId taskId() 
+# void setTaskId(TaskId aTaskId) 
+# TenantId tenantId() 
+# void setTenantId(TenantId aTenantId) 
+- void logEstimation(int anHoursRemaining) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityAssigned<<Event>> { 
+- BacklogItemId backlogItemId
+- BusinessPriority businessPriority
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ BusinessPriorityAssigned(TenantId aTenantId, BacklogItemId aBacklogItemId, BusinessPriority aBusinessPriority) 
++ BacklogItemId backlogItemId() 
++ BusinessPriority businessPriority() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemTypeChanged<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
+- BacklogItemType type
++ BacklogItemTypeChanged(TenantId aTenantId, BacklogItemId aBacklogItemId, BacklogItemType aType) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ BacklogItemType type() 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductDiscussion<<ValueObject>> { 
+- DiscussionAvailability availability
+- DiscussionDescriptor descriptor
++ static ProductDiscussion fromAvailability(
+            DiscussionAvailability anAvailability) 
++ ProductDiscussion(
+            DiscussionDescriptor aDescriptor,
+            DiscussionAvailability anAvailability) 
++ ProductDiscussion(ProductDiscussion aProductDiscussion) 
++ DiscussionAvailability availability() 
++ DiscussionDescriptor descriptor() 
++ ProductDiscussion nowReady(DiscussionDescriptor aDescriptor) 
+- void setAvailability(DiscussionAvailability anAvailability) 
+- void setDescriptor(DiscussionDescriptor aDescriptor) 
+}
+ class com.saasovation.agilepm.application.process.ProcessApplicationService<<DomainService>> { 
+- TimeConstrainedProcessTrackerRepository processTrackerRepository
++ ProcessApplicationService(
+            TimeConstrainedProcessTrackerRepository aProcessorTrackerRepository) 
++ void checkForTimedOutProcesses() 
+- TimeConstrainedProcessTrackerRepository processTrackerRepository() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStatusChanged<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- BacklogItemStatus status
+- TenantId tenantId
++ BacklogItemStatusChanged(TenantId aTenantId, BacklogItemId aBacklogItemId, BacklogItemStatus aStatus) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ BacklogItemStatus status() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.release.Release<<AggregateRoot, Entity>> { 
+- boolean archived
+- Set<ScheduledBacklogItem> backlogItems
+- Date begins
+- String description
+- Date ends
+- String name
+- ProductId productId
+- ReleaseId releaseId
+- TenantId tenantId
+- int concurrencyVersion
++ Set<ScheduledBacklogItem> allScheduledBacklogItems() 
++ void archived(boolean anArchived) 
++ Date begins() 
++ void describeAs(String aDescription) 
++ String description() 
++ Date ends() 
++ boolean isArchived() 
++ String name() 
++ void nowBeginsOn(Date aBegins) 
++ void nowEndsOn(Date anEnds) 
++ ProductId productId() 
++ ReleaseId releaseId() 
++ void rename(String aName) 
++ void reorderFrom(BacklogItemId anId, int anOrderOfPriority) 
++ void schedule(BacklogItem aBacklogItem) 
++ TenantId tenantId() 
++ void unschedule(BacklogItem aBacklogItem) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- Release() 
+- void setArchived(boolean anArchived) 
+- Set<ScheduledBacklogItem> backlogItems() 
+- void setBacklogItems(Set<ScheduledBacklogItem> aBacklogItems) 
+- void setBegins(Date aBegins) 
+- void setDescription(String aDescription) 
+- void setEnds(Date anEnds) 
+- void setName(String aName) 
+- void setProductId(ProductId aProductId) 
+- void setReleaseId(ReleaseId aReleaseId) 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.application.team.TeamApplicationService<<DomainService>> { 
+- ProductOwnerRepository productOwnerRepository
+- TeamMemberRepository teamMemberRepository
++ TeamApplicationService(
+            TeamMemberRepository aTeamMemberRepository,
+            ProductOwnerRepository aProductOwnerRepository) 
++ void enableProductOwner(EnableProductOwnerCommand aCommand) 
++ void enableTeamMember(EnableTeamMemberCommand aCommand) 
++ void changeTeamMemberEmailAddress(ChangeTeamMemberEmailAddressCommand aCommand) 
++ void changeTeamMemberName(ChangeTeamMemberNameCommand aCommand) 
++ void disableProductOwner(DisableProductOwnerCommand aCommand) 
++ void disableTeamMember(DisableTeamMemberCommand aCommand) 
+- ProductOwnerRepository productOwnerRepository() 
+- TeamMemberRepository teamMemberRepository() 
+}
+ interface com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository<<Repository>> { 
++ Collection<BacklogItem> allBacklogItemsComittedTo(TenantId aTenantId, SprintId aSprintId)
++ Collection<BacklogItem> allBacklogItemsScheduledFor(TenantId aTenantId, ReleaseId aReleaseId)
++ Collection<BacklogItem> allOutstandingProductBacklogItems(TenantId aTenantId, ProductId aProductId)
++ Collection<BacklogItem> allProductBacklogItems(TenantId aTenantId, ProductId aProductId)
++ BacklogItem backlogItemOfId(TenantId aTenantId, BacklogItemId aBacklogItemId)
++ BacklogItemId nextIdentity()
++ void remove(BacklogItem aBacklogItem)
++ void removeAll(Collection<BacklogItem> aBacklogItemCollection)
++ void save(BacklogItem aBacklogItem)
++ void saveAll(Collection<BacklogItem> aBacklogItemCollection)
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskHoursRemainingEstimated<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- int hoursRemaining
+- Date occurredOn
+- TaskId taskId
+- TenantId tenantId
++ TaskHoursRemainingEstimated(
+            TenantId aTenantId,
+            BacklogItemId aBacklogItemId,
+            TaskId aTaskId,
+            int aHoursRemaining) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ int hoursRemaining() 
++ Date occurredOn() 
++ TaskId taskId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductBacklogItemPlanned<<Event>> { 
+- BacklogItemId backlogItemId
+- String category
+- int eventVersion
+- Date occurredOn
+- ProductId productId
+- StoryPoints storyPoints
+- String summary
+- TenantId tenantId
+- BacklogItemType type
++ ProductBacklogItemPlanned(
+            TenantId aTenantId,
+            ProductId aProductId,
+            BacklogItemId aBacklogItemId,
+            String aSummary,
+            String aCategory,
+            BacklogItemType aType,
+            StoryPoints aStoryPoints) 
++ BacklogItemId backlogItemId() 
++ String category() 
++ int eventVersion() 
++ Date occurredOn() 
++ ProductId productId() 
++ StoryPoints storyPoints() 
++ String summary() 
++ TenantId tenantId() 
++ BacklogItemType type() 
+}
+ class com.saasovation.agilepm.application.sprint.SprintApplicationService<<DomainService>> { 
+- BacklogItemRepository backlogItemRepository
+- SprintRepository sprintRepository
++ SprintApplicationService(
+            SprintRepository aSprintRepository,
+            BacklogItemRepository aBacklogItemRepository) 
++ void commitBacklogItemToSprint(
+            CommitBacklogItemToSprintCommand aCommand) 
+- BacklogItemRepository backlogItemRepository() 
+- SprintRepository sprintRepository() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskId<<ValueObject>> { 
+- String id
++ TaskId() 
++ TaskId(String anId) 
++ TaskId(TaskId aTaskId) 
++ String id() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- void setId(String anId) 
+}
+ class com.saasovation.agilepm.domain.model.product.Product<<Entity>> { 
+- Set<ProductBacklogItem> backlogItems
+- String description
+- ProductDiscussion discussion
+- String discussionInitiationId
+- String name
+- ProductId productId
+- ProductOwnerId productOwnerId
+- TenantId tenantId
+- int concurrencyVersion
++ Product(
+            TenantId aTenantId,
+            ProductId aProductId,
+            ProductOwnerId aProductOwnerId,
+            String aName,
+            String aDescription,
+            DiscussionAvailability aDiscussionAvailability) 
++ Set<ProductBacklogItem> allBacklogItems() 
++ void changeProductOwner(ProductOwner aProductOwner) 
++ String description() 
++ ProductDiscussion discussion() 
++ String discussionInitiationId() 
++ void failDiscussionInitiation() 
++ void initiateDiscussion(DiscussionDescriptor aDescriptor) 
++ String name() 
++ BacklogItem planBacklogItem(
+            BacklogItemId aNewBacklogItemId,
+            String aSummary,
+            String aCategory,
+            BacklogItemType aType,
+            StoryPoints aStoryPoints) 
++ void plannedProductBacklogItem(BacklogItem aBacklogItem) 
++ ProductId productId() 
++ ProductOwnerId productOwnerId() 
++ void reorderFrom(BacklogItemId anId, int anOrdering) 
++ void requestDiscussion(DiscussionAvailability aDiscussionAvailability) 
++ Release scheduleRelease(
+            ReleaseId aNewReleaseId,
+            String aName,
+            String aDescription,
+            Date aBegins,
+            Date anEnds) 
++ Sprint scheduleSprint(
+            SprintId aNewSprintId,
+            String aName,
+            String aGoals,
+            Date aBegins,
+            Date anEnds) 
++ void startDiscussionInitiation(String aDiscussionInitiationId) 
++ TenantId tenantId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- Product() 
+- Set<ProductBacklogItem> backlogItems() 
+- void setBacklogItems(Set<ProductBacklogItem> backlogItems) 
+- void setDescription(String aDescription) 
+- void setDiscussion(ProductDiscussion aDiscussion) 
+- void setDiscussionInitiationId(String aDiscussionInitiationId) 
+- void setName(String aName) 
+- void setProductId(ProductId aProductId) 
+- void setProductOwnerId(ProductOwnerId aProductOwnerId) 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemMarkedAsRemoved<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ BacklogItemMarkedAsRemoved(TenantId aTenantId, BacklogItemId aBacklogItemId) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionInitiated<<Event>> { 
+- BacklogItemId backlogItemId
+- BacklogItemDiscussion discussion
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ BacklogItemDiscussionInitiated(TenantId aTenantId, BacklogItemId aBacklogItemId, BacklogItemDiscussion aDiscussion) 
++ BacklogItemId backlogItemId() 
++ BacklogItemDiscussion discussion() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.application.product.ProductApplicationService<<DomainService>> { 
+- TimeConstrainedProcessTrackerRepository processTrackerRepository
+- ProductOwnerRepository productOwnerRepository
+- ProductRepository productRepository
++ ProductApplicationService(
+            ProductRepository aProductRepository,
+            ProductOwnerRepository aProductOwnerRepository,
+            TimeConstrainedProcessTrackerRepository aProcessTrackerRepository) 
++ void initiateDiscussion(InitiateDiscussionCommand aCommand) 
++ String newProduct(NewProductCommand aCommand) 
++ String newProductWithDiscussion(NewProductCommand aCommand) 
++ void requestProductDiscussion(RequestProductDiscussionCommand aCommand) 
++ void retryProductDiscussionRequest(RetryProductDiscussionRequestCommand aCommand) 
++ void startDiscussionInitiation(StartDiscussionInitiationCommand aCommand) 
++ void timeOutProductDiscussionRequest(TimeOutProductDiscussionRequestCommand aCommand) 
+- void sendEmailForTimedOutProcess(Product aProduct) 
+- String newProductWith(
+            String aTenantId,
+            String aProductOwnerId,
+            String aName,
+            String aDescription,
+            DiscussionAvailability aDiscussionAvailability) 
+- DiscussionAvailability requestDiscussionIfAvailable() 
+- TimeConstrainedProcessTrackerRepository processTrackerRepository() 
+- ProductOwnerRepository productOwnerRepository() 
+- ProductRepository productRepository() 
+- void requestProductDiscussionFor(Product aProduct) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemCommitted<<Event>> { 
+- BacklogItemId backlogItemId
+- SprintId committedToSprintId
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ BacklogItemCommitted(TenantId aTenantId, BacklogItemId aBacklogItemId, SprintId aCommittedToSprintId) 
++ BacklogItemId backlogItemId() 
++ SprintId committedToSprintId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductBacklogItem<<Entity>> { 
+- BacklogItemId backlogItemId
+- int ordering
+- ProductId productId
+- TenantId tenantId
+- int concurrencyVersion
++ BacklogItemId backlogItemId() 
++ int ordering() 
++ ProductId productId() 
++ TenantId tenantId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# ProductBacklogItem(
+            TenantId aTenantId,
+            ProductId aProductId,
+            BacklogItemId aBacklogItemId,
+            int anOrdering) 
+# ProductBacklogItem() 
+# void reorderFrom(BacklogItemId anId, int anOrdering) 
+# void setBacklogItemId(BacklogItemId aBacklogItemId) 
+# void setOrdering(int anOrdering) 
+# void setProductId(ProductId aProductId) 
+# void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskDescribed<<Event>> { 
+- BacklogItemId backlogItemId
+- String description
+- int eventVersion
+- Date occurredOn
+- TaskId taskId
+- TenantId tenantId
++ TaskDescribed(
+            TenantId aTenantId,
+            BacklogItemId aBacklogItemId,
+            TaskId aTaskId,
+            String aDescription) 
++ BacklogItemId backlogItemId() 
++ String description() 
++ int eventVersion() 
++ Date occurredOn() 
++ TaskId taskId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskVolunteerAssigned<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- TaskId taskId
+- TenantId tenantId
+- String volunteerMemberId
++ TaskVolunteerAssigned(
+            TenantId aTenantId,
+            BacklogItemId aBacklogItemId,
+            TaskId aTaskId,
+            String aVolunteerMemberId) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TaskId taskId() 
++ TenantId tenantId() 
++ String volunteerMemberId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.EstimationLogEntry<<Entity>> { 
+- Date date
+- int hoursRemaining
+- TaskId taskId
+- TenantId tenantId
+- int concurrencyVersion
++ static Date currentLogDate() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# EstimationLogEntry(
+            TenantId aTenantId,
+            TaskId aTaskId,
+            Date aDate,
+            int aHoursRemaining) 
+- EstimationLogEntry() 
+# Date date() 
+# void setDate(Date aDate) 
+# int hoursRemaining() 
+# void setHoursRemaining(int aHoursRemaining) 
+# boolean isMatching(Date aDate) 
+# TaskId taskId() 
+# void setTaskId(TaskId aTaskId) 
+# TenantId tenantId() 
+# void setTenantId(TenantId aTenantId) 
+# boolean updateHoursRemainingWhenDateMatches(int anHoursRemaining, Date aDate) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriority<<ValueObject>> { 
+- BusinessPriorityRatings ratings
++ BusinessPriority(BusinessPriorityRatings aBusinessPriorityRatings) 
++ BusinessPriority(BusinessPriority aBusinessPriority) 
++ float costPercentage(BusinessPriorityTotals aTotals) 
++ float priority(BusinessPriorityTotals aTotals) 
++ float riskPercentage(BusinessPriorityTotals aTotals) 
++ float totalValue() 
++ float valuePercentage(BusinessPriorityTotals aTotals) 
++ BusinessPriorityRatings ratings() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- BusinessPriority() 
+- void setRatings(BusinessPriorityRatings aRatings) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskDefined<<Event>> { 
+- BacklogItemId backlogItemId
+- String description
+- int eventVersion
+- int hoursRemaining
+- String name
+- Date occurredOn
+- TaskId taskId
+- TenantId tenantId
+- String volunteerMemberId
++ TaskDefined(
+            TenantId aTenantId,
+            BacklogItemId aBacklogItemId,
+            TaskId aTaskId,
+            String aVolunteerMemberId,
+            String aName,
+            String aDescription,
+            int aHoursRemaining) 
++ BacklogItemId backlogItemId() 
++ String description() 
++ int eventVersion() 
++ int hoursRemaining() 
++ String name() 
++ Date occurredOn() 
++ TaskId taskId() 
++ TenantId tenantId() 
++ String volunteerMemberId() 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductId<<ValueObject>> { 
+- String id
++ ProductId(String anId) 
++ ProductId(ProductId aProductId) 
++ String id() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- ProductId() 
+- void setId(String anId) 
+}
+ class com.saasovation.agilepm.domain.model.product.sprint.CommittedBacklogItem<<Entity>> { 
+- BacklogItemId backlogItemId
+- int ordering
+- SprintId sprintId
+- TenantId tenantId
+- int concurrencyVersion
++ BacklogItemId backlogItemId() 
++ int ordering() 
++ SprintId sprintId() 
++ TenantId tenantId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# CommittedBacklogItem(
+            TenantId aTenantId,
+            SprintId aSprintId,
+            BacklogItemId aBacklogItemId,
+            int anOrdering) 
+# CommittedBacklogItem(
+            TenantId aTenantId,
+            SprintId aSprintId,
+            BacklogItemId aBacklogItemId) 
+- CommittedBacklogItem() 
+# void reorderFrom(BacklogItemId anId, int anOrderOfPriority) 
+# void setOrdering(int anOrdering) 
+- void setBacklogItemId(BacklogItemId aBacklogItemId) 
+- void setSprintId(SprintId aSprintId) 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.discussion.DiscussionDescriptor<<ValueObject>> { 
++ static final String UNDEFINED_ID = "UNDEFINED"
+- String id
++ DiscussionDescriptor(String anId) 
++ DiscussionDescriptor(DiscussionDescriptor aDiscussionDescriptor) 
++ String id() 
++ boolean isUndefined() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- DiscussionDescriptor() 
+- void setId(String anId) 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductCreated<<Event>> { 
+- String description
+- int eventVersion
+- String name
+- Date occurredOn
+- ProductId productId
+- ProductOwnerId productOwnerId
+- boolean requestingDiscussion
+- TenantId tenantId
++ ProductCreated(
+            TenantId aTenantId,
+            ProductId aProductId,
+            ProductOwnerId aProductOwnerId,
+            String aName,
+            String aDescription,
+            boolean aRequestingDiscussion) 
++ String description() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ ProductId productId() 
++ ProductOwnerId productOwnerId() 
++ boolean isRequestingDiscussion() 
++ TenantId tenantId() 
+}
+ interface com.saasovation.agilepm.domain.model.product.release.ReleaseRepository<<Repository>> { 
++ Collection<Release> allProductReleases(TenantId aTenantId, ProductId aProductId)
++ ReleaseId nextIdentity()
++ Release releaseOfId(TenantId aTenantId, ReleaseId aReleaseId)
++ void remove(Release aRelease)
++ void removeAll(Collection<Release> aReleaseCollection)
++ void save(Release aRelease)
++ void saveAll(Collection<Release> aReleaseCollection)
+}
+ interface com.saasovation.agilepm.domain.model.team.TeamRepository<<Repository>> { 
++ Collection<Team> allTeamsOfTenant(TenantId aTenantId)
++ void remove(Team aTeam)
++ void removeAll(Collection<Team> aTeamCollection)
++ void save(Team aTeam)
++ void saveAll(Collection<Team> aTeamCollection)
++ Team teamNamed(TenantId aTenantId, String aName)
+}
+ class com.saasovation.agilepm.domain.model.product.sprint.Sprint<<Event>> { 
+- Set<CommittedBacklogItem> backlogItems
+- Date begins
+- Date ends
+- String goals
+- String name
+- ProductId productId
+- String retrospective
+- SprintId sprintId
+- TenantId tenantId
+- int concurrencyVersion
++ Sprint(
+            TenantId aTenantId,
+            ProductId aProductId,
+            SprintId aSprintId,
+            String aName,
+            String aGoals,
+            Date aBegins,
+            Date anEnds) 
++ void adjustGoals(String aGoals) 
++ Set<CommittedBacklogItem> allCommittedBacklogItems() 
++ Date begins() 
++ void captureRetrospectiveMeetingResults(String aRetrospective) 
++ void commit(BacklogItem aBacklogItem) 
++ Date ends() 
++ String goals() 
++ String name() 
++ void nowBeginsOn(Date aBegins) 
++ void nowEndsOn(Date anEnds) 
++ ProductId productId() 
++ void rename(String aName) 
++ void reorderFrom(BacklogItemId anId, int anOrderOfPriority) 
++ String retrospective() 
++ SprintId sprintId() 
++ TenantId tenantId() 
++ void uncommit(BacklogItem aBacklogItem) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- Sprint() 
+- Set<CommittedBacklogItem> backlogItems() 
+- void setBacklogItems(Set<CommittedBacklogItem> aBacklogItems) 
+- void setBegins(Date aBegins) 
+- void setEnds(Date anEnds) 
+- void setGoals(String aGoals) 
+- void setName(String aName) 
+- void setProductId(ProductId aProductId) 
+- void setRetrospective(String aRetrospective) 
+- void setSprintId(SprintId aSprintId) 
+- void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.agilepm.domain.model.team.MemberChangeTracker<<ValueObject>> { 
+- Date emailAddressChangedOn
+- Date enablingOn
+- Date nameChangedOn
++ boolean canChangeEmailAddress(Date asOfDate) 
++ boolean canChangeName(Date asOfDate) 
++ boolean canToggleEnabling(Date asOfDate) 
++ MemberChangeTracker emailAddressChangedOn(Date asOfDate) 
++ MemberChangeTracker enablingOn(Date asOfDate) 
++ MemberChangeTracker nameChangedOn(Date asOfDate) 
++ boolean equals(Object anObject) 
++ int hashCode() 
+# MemberChangeTracker(
+            Date anEnablingOn,
+            Date aNameChangedOn,
+            Date anEmailAddressChangedOn) 
+# MemberChangeTracker(MemberChangeTracker aMemberChangeTracker) 
+- MemberChangeTracker() 
+- Date emailAddressChangedOn() 
+- Date enablingOn() 
+- Date nameChangedOn() 
+- void setEmailAddressChangedOn(Date anEmailAddressChangedOn) 
+- void setEnablingOn(Date anEnablingOn) 
+- void setNameChangedOn(Date aNameChangedOn) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussion<<ValueObject>> { 
+- DiscussionAvailability availability
+- DiscussionDescriptor descriptor
++ static BacklogItemDiscussion fromAvailability(
+            DiscussionAvailability anAvailability) 
++ BacklogItemDiscussion(
+            DiscussionDescriptor aDescriptor,
+            DiscussionAvailability anAvailability) 
++ BacklogItemDiscussion(BacklogItemDiscussion aBacklogItemDiscussion) 
++ DiscussionAvailability availability() 
++ DiscussionDescriptor descriptor() 
++ BacklogItemDiscussion nowReady(DiscussionDescriptor aDescriptor) 
++ boolean equals(Object anObject) 
++ int hashCode() 
+- BacklogItemDiscussion() 
+- void setAvailability(DiscussionAvailability anAvailability) 
+- void setDescriptor(DiscussionDescriptor aDescriptor) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemCategoryChanged<<Event>> { 
+- BacklogItemId backlogItemId
+- String category
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ BacklogItemCategoryChanged(TenantId aTenantId, BacklogItemId aBacklogItemId, String aCategory) 
++ BacklogItemId backlogItemId() 
++ String category() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStoryTold<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- String story
+- TenantId tenantId
++ BacklogItemStoryTold(TenantId aTenantId, BacklogItemId aBacklogItemId, String aStory) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ String story() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.ProductSprintScheduled<<Event>> { 
+- Date begins
+- Date ends
+- int eventVersion
+- String goals
+- String name
+- Date occurredOn
+- ProductId productId
+- SprintId sprintId
+- TenantId tenantId
++ ProductSprintScheduled(
+            TenantId aTenantId,
+            ProductId aProductId,
+            SprintId aSprintId,
+            String aName,
+            String aGoals,
+            Date aBegins,
+            Date anEnds) 
++ Date begins() 
++ Date ends() 
++ int eventVersion() 
++ String goals() 
++ String name() 
++ Date occurredOn() 
++ ProductId productId() 
++ SprintId sprintId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemUnscheduled<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
+- ReleaseId unscheduledForReleaseId
++ BacklogItemUnscheduled(TenantId aTenantId, BacklogItemId aBacklogItemId, ReleaseId anUnscheduledForReleaseId) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ ReleaseId unscheduledForReleaseId() 
+}
+ class com.saasovation.agilepm.domain.model.team.Member<<Entity>> { 
+- MemberChangeTracker changeTracker
+- String emailAddress
+- boolean enabled = true
+- String firstName
+- String lastName
+- TenantId tenantId
+- String username
+- int concurrencyVersion
++ Member(
+            TenantId aTenantId,
+            String aUsername,
+            String aFirstName,
+            String aLastName,
+            String anEmailAddress,
+            Date anInitializedOn) 
++ void changeEmailAddress(String anEmailAddress, Date asOfDate) 
++ void changeName(String aFirstName, String aLastName, Date asOfDate) 
++ void disable(Date asOfDate) 
++ void enable(Date asOfDate) 
++ String emailAddress() 
++ boolean isEnabled() 
++ String firstName() 
++ String lastName() 
++ TenantId tenantId() 
++ String username() 
+# Member(
+            TenantId aTenantId,
+            String aUsername,
+            String aFirstName,
+            String aLastName,
+            String anEmailAddress) 
+# Member() 
+- MemberChangeTracker changeTracker() 
+- void setChangeTracker(MemberChangeTracker aChangeTracker) 
+- void setEmailAddress(String anEmailAddress) 
+- void setEnabled(boolean anEnabled) 
+- void setFirstName(String aFirstName) 
+- void setLastName(String aLastName) 
+- void setTenantId(TenantId aTenantId) 
+- void setUsername(String aUsername) 
+}
+ class com.saasovation.agilepm.domain.model.product.sprint.SprintId<<ValueObject>> { 
+- String id
++ SprintId(String anId) 
++ SprintId(ReleaseId aReleaseId) 
++ String id() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# SprintId() 
+- void setId(String anId) 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId<<ValueObject>> { 
+- String id
++ BacklogItemId(String anId) 
++ BacklogItemId(BacklogItemId aBacklogItemId) 
++ String id() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- BacklogItemId() 
+- void setId(String anId) 
+}
+ class com.saasovation.agilepm.domain.model.team.ProductOwner<<Entity>> { 
+- MemberChangeTracker changeTracker
+- String emailAddress
+- boolean enabled = true
+- String firstName
+- String lastName
+- TenantId tenantId
+- String username
+- int concurrencyVersion
++ ProductOwner(
+            TenantId aTenantId,
+            String aUsername,
+            String aFirstName,
+            String aLastName,
+            String anEmailAddress,
+            Date anInitializedOn) 
++ ProductOwnerId productOwnerId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# ProductOwner() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.TaskRenamed<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- String name
+- Date occurredOn
+- TaskId taskId
+- TenantId tenantId
++ TaskRenamed(TenantId aTenantId, BacklogItemId aBacklogItemId, TaskId aTaskId, String aName) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ TaskId taskId() 
++ TenantId tenantId() 
+}
+ class com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemScheduled<<Event>> { 
+- BacklogItemId backlogItemId
+- int eventVersion
+- Date occurredOn
+- ReleaseId scheduledForReleaseId
+- TenantId tenantId
++ BacklogItemScheduled(TenantId aTenantId, BacklogItemId aBacklogItemId, ReleaseId aScheduledForReleaseId) 
++ BacklogItemId backlogItemId() 
++ int eventVersion() 
++ Date occurredOn() 
++ ReleaseId scheduledForReleaseId() 
++ TenantId tenantId() 
+}
+ interface com.saasovation.agilepm.domain.model.team.TeamMemberRepository<<Repository>> { 
++ Collection<TeamMember> allTeamMembersOfTenant(TenantId aTenantId)
++ void remove(TeamMember aTeamMember)
++ void removeAll(Collection<TeamMember> aTeamMemberCollection)
++ void save(TeamMember aTeamMember)
++ void saveAll(Collection<TeamMember> aTeamMemberCollection)
++ TeamMember teamMemberOfIdentity(TenantId aTenantId, String aUsername)
+}
+'!@Relation
+com.saasovation.agilepm.domain.model.team.ProductOwnerId --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.team.ProductOwnerId --> com.saasovation.agilepm.domain.model.team.ProductOwnerId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityRatings --> com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityRatings
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemTypeChanged --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemTypeChanged --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.application.product.backlogitem.BacklogItemApplicationService --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemCommitted --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemCommitted --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemCommitted --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.release.ReleaseRepository --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.release.ReleaseRepository --> com.saasovation.agilepm.domain.model.product.release.Release
+com.saasovation.agilepm.domain.model.product.release.ReleaseRepository --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStoryPointsAssigned --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStoryPointsAssigned --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.team.MemberChangeTracker --> com.saasovation.agilepm.domain.model.team.MemberChangeTracker
+
+com.saasovation.agilepm.domain.model.product.release.Release --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem
+com.saasovation.agilepm.domain.model.product.release.Release --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.release.Release --> com.saasovation.agilepm.domain.model.product.release.ScheduledBacklogItem
+com.saasovation.agilepm.domain.model.product.release.Release --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.release.Release --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.team.Member --> com.saasovation.agilepm.domain.model.team.MemberChangeTracker
+com.saasovation.agilepm.domain.model.team.Member --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.tenant.TenantId --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.team.TeamMemberRepository --> com.saasovation.agilepm.domain.model.team.TeamMember
+com.saasovation.agilepm.domain.model.team.TeamMemberRepository --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionRequested --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionRequested --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionRequested --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.discussion.DiscussionDescriptor --> com.saasovation.agilepm.domain.model.discussion.DiscussionDescriptor
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskHoursRemainingEstimated --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskHoursRemainingEstimated --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskHoursRemainingEstimated --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskVolunteerAssigned --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskVolunteerAssigned --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskVolunteerAssigned --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskRenamed --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskRenamed --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskRenamed --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.application.team.TeamApplicationService --> com.saasovation.agilepm.domain.model.team.TeamMemberRepository
+com.saasovation.agilepm.application.team.TeamApplicationService --> com.saasovation.agilepm.domain.model.team.ProductOwnerRepository
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskRemoved --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskRemoved --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskRemoved --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityAssigned --> com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriority
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityAssigned --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityAssigned --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskId --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+
+com.saasovation.agilepm.domain.model.product.ProductBacklogItemPlanned --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.ProductBacklogItemPlanned --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.ProductBacklogItemPlanned --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.ProductBacklogItem --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.ProductBacklogItem --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.ProductBacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.team.ProductOwnerRepository --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.team.ProductOwnerRepository --> com.saasovation.agilepm.domain.model.team.ProductOwner
+
+com.saasovation.agilepm.domain.model.product.release.ScheduledBacklogItem --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.release.ScheduledBacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemScheduled --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemScheduled --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemCategoryChanged --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemCategoryChanged --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.EstimationLogEntry --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.EstimationLogEntry --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStoryTold --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStoryTold --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.ProductId --> com.saasovation.agilepm.domain.model.product.ProductId
+
+com.saasovation.agilepm.domain.model.product.ProductDiscussionRequested --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.ProductDiscussionRequested --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.ProductDiscussionRequested --> com.saasovation.agilepm.domain.model.team.ProductOwnerId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemUncommitted --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemUncommitted --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemUncommitted --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.application.sprint.SprintApplicationService --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemRepository
+
+com.saasovation.agilepm.domain.model.product.ProductCreated --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.ProductCreated --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.ProductCreated --> com.saasovation.agilepm.domain.model.team.ProductOwnerId
+
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.discussion.DiscussionDescriptor
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.ProductBacklogItem
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.release.Release
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.team.ProductOwnerId
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.team.ProductOwner
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.ProductDiscussion
+com.saasovation.agilepm.domain.model.product.Product --> com.saasovation.agilepm.domain.model.product.sprint.Sprint
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionInitiated --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussion
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionInitiated --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussionInitiated --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemUnscheduled --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemUnscheduled --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.ProductDiscussion --> com.saasovation.agilepm.domain.model.discussion.DiscussionDescriptor
+com.saasovation.agilepm.domain.model.product.ProductDiscussion --> com.saasovation.agilepm.domain.model.product.ProductDiscussion
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussion --> com.saasovation.agilepm.domain.model.discussion.DiscussionDescriptor
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussion --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussion
+
+com.saasovation.agilepm.application.product.ProductApplicationService --> com.saasovation.agilepm.domain.model.product.Product
+com.saasovation.agilepm.application.product.ProductApplicationService --> com.saasovation.common.domain.model.process.TimeConstrainedProcessTrackerRepository
+com.saasovation.agilepm.application.product.ProductApplicationService --> com.saasovation.agilepm.domain.model.team.ProductOwnerRepository
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityTotals --> com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityTotals
+
+com.saasovation.agilepm.domain.model.product.sprint.CommittedBacklogItem --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.sprint.CommittedBacklogItem --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.sprint.CommittedBacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.ProductSprintScheduled --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.ProductSprintScheduled --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.ProductSprintScheduled --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.product.sprint.Sprint --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem
+com.saasovation.agilepm.domain.model.product.sprint.Sprint --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.sprint.Sprint --> com.saasovation.agilepm.domain.model.product.sprint.CommittedBacklogItem
+com.saasovation.agilepm.domain.model.product.sprint.Sprint --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.sprint.Sprint --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.sprint.Sprint --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStatusChanged --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemStatusChanged --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskStatusChanged --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskStatusChanged --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskStatusChanged --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemSummarized --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemSummarized --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.team.TeamMember --> com.saasovation.agilepm.domain.model.team.TeamMemberId
+com.saasovation.agilepm.domain.model.team.TeamMember --> com.saasovation.agilepm.domain.model.team.MemberChangeTracker
+com.saasovation.agilepm.domain.model.team.TeamMember --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskDefined --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskDefined --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskDefined --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskDescribed --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskDescribed --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.TaskDescribed --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.product.ProductReleaseScheduled --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.ProductReleaseScheduled --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriority --> com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityTotals
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriority --> com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriorityRatings
+com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriority --> com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriority
+
+com.saasovation.agilepm.domain.model.team.ProductOwner --> com.saasovation.agilepm.domain.model.team.MemberChangeTracker
+com.saasovation.agilepm.domain.model.team.ProductOwner --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.team.ProductOwner --> com.saasovation.agilepm.domain.model.team.ProductOwnerId
+
+com.saasovation.agilepm.domain.model.team.Team --> com.saasovation.agilepm.domain.model.team.TeamMember
+com.saasovation.agilepm.domain.model.team.Team --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.team.Team --> com.saasovation.agilepm.domain.model.team.ProductOwner
+
+com.saasovation.agilepm.application.process.ProcessApplicationService --> com.saasovation.common.domain.model.process.TimeConstrainedProcessTrackerRepository
+
+com.saasovation.agilepm.domain.model.product.ProductDiscussionInitiated --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.ProductDiscussionInitiated --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.ProductDiscussionInitiated --> com.saasovation.agilepm.domain.model.product.ProductDiscussion
+
+com.saasovation.agilepm.domain.model.product.backlogitem.Task --> com.saasovation.agilepm.domain.model.team.TeamMemberId
+com.saasovation.agilepm.domain.model.product.backlogitem.Task --> com.saasovation.agilepm.domain.model.team.TeamMember
+com.saasovation.agilepm.domain.model.product.backlogitem.Task --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.Task --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.Task --> com.saasovation.agilepm.domain.model.product.backlogitem.EstimationLogEntry
+com.saasovation.agilepm.domain.model.product.backlogitem.Task --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.team.TeamRepository --> com.saasovation.agilepm.domain.model.team.Team
+com.saasovation.agilepm.domain.model.team.TeamRepository --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.discussion.DiscussionDescriptor
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.sprint.SprintId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.TaskId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.ProductId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemDiscussion
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.team.TeamMember
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.release.Release
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.Task
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.BusinessPriority
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItem --> com.saasovation.agilepm.domain.model.product.sprint.Sprint
+
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemMarkedAsRemoved --> com.saasovation.agilepm.domain.model.tenant.TenantId
+com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemMarkedAsRemoved --> com.saasovation.agilepm.domain.model.product.backlogitem.BacklogItemId
+
+com.saasovation.agilepm.domain.model.team.TeamMemberId --> com.saasovation.agilepm.domain.model.team.TeamMemberId
+com.saasovation.agilepm.domain.model.team.TeamMemberId --> com.saasovation.agilepm.domain.model.tenant.TenantId
+
+
+@enduml

@@ -1,0 +1,971 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam package {
+backgroundColor #E3F2FD
+}
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor Gray
+    ActorBorderColor Gray
+    BackgroundColor #E3F2FD
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+left to right direction
+'!@Item
+ class com.saasovation.identityaccess.infrastructure.persistence.HibernateGroupRepository<<Repository>> { 
+- Session session
+- SpringHibernateSessionProvider sessionProvider
++ HibernateGroupRepository() 
++ void add(Group aGroup) 
++ Collection<Group> allGroups(TenantId aTenantId) 
++ Group groupNamed(TenantId aTenantId, String aName) 
++ void remove(Group aGroup) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.UserDescriptor<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- String emailAddress
+- TenantId tenantId
+- String username
++ static UserDescriptor nullDescriptorInstance() 
++ UserDescriptor(TenantId aTenantId, String aUsername, String anEmailAddress) 
++ String emailAddress() 
++ boolean isNullDescriptor() 
++ TenantId tenantId() 
++ String username() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- UserDescriptor() 
+- void setEmailAddress(String anEmailAddress) 
+- void setTenantId(TenantId aTenantId) 
+- void setUsername(String aUsername) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.Telephone<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- String number
++ Telephone(String aNumber) 
++ Telephone(Telephone aTelephone) 
++ String number() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
++ Telephone() 
+- void setNumber(String aNumber) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.GroupUserRemoved<<Event>> { 
+- int eventVersion
+- String groupName
+- Date occurredOn
+- TenantId tenantId
+- String username
++ GroupUserRemoved(TenantId aTenantId, String aGroupName, String aUsername) 
++ int eventVersion() 
++ String groupName() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ String username() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.User<<AggregateRoot, Entity>> { 
+- static final long serialVersionUID = 1L
+- Enablement enablement
+- String password
+- Person person
+- TenantId tenantId
+- String username
+- int concurrencyVersion
++ void changePassword(String aCurrentPassword, String aChangedPassword) 
++ void changePersonalContactInformation(ContactInformation aContactInformation) 
++ void changePersonalName(FullName aPersonalName) 
++ void defineEnablement(Enablement anEnablement) 
++ boolean isEnabled() 
++ Person person() 
++ TenantId tenantId() 
++ UserDescriptor userDescriptor() 
++ String username() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# User(
+            TenantId aTenantId,
+            String aUsername,
+            String aPassword,
+            Enablement anEnablement,
+            Person aPerson) 
+# User() 
+# String asEncryptedValue(String aPlainTextPassword) 
+# void assertPasswordsNotSame(String aCurrentPassword, String aChangedPassword) 
+# void assertPasswordNotWeak(String aPlainTextPassword) 
+# void assertUsernamePasswordNotSame(String aPlainTextPassword) 
+# Enablement enablement() 
+# void setEnablement(Enablement anEnablement) 
++ String internalAccessOnlyEncryptedPassword() 
+# String password() 
+# void setPassword(String aPassword) 
+# void setPerson(Person aPerson) 
+# void protectPassword(String aCurrentPassword, String aChangedPassword) 
+# void setTenantId(TenantId aTenantId) 
+# GroupMember toGroupMember() 
+# void setUsername(String aUsername) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService<<DomainService>> { 
+- RoleRepository roleRepository
+- TenantRepository tenantRepository
+- UserRepository userRepository
++ TenantProvisioningService(
+            TenantRepository aTenantRepository,
+            UserRepository aUserRepository,
+            RoleRepository aRoleRepository) 
++ Tenant provisionTenant(
+            String aTenantName,
+            String aTenantDescription,
+            FullName anAdministorName,
+            EmailAddress anEmailAddress,
+            PostalAddress aPostalAddress,
+            Telephone aPrimaryTelephone,
+            Telephone aSecondaryTelephone) 
+- void registerAdministratorFor(
+            Tenant aTenant,
+            FullName anAdministorName,
+            EmailAddress anEmailAddress,
+            PostalAddress aPostalAddress,
+            Telephone aPrimaryTelephone,
+            Telephone aSecondaryTelephone) 
+- RoleRepository roleRepository() 
+- TenantRepository tenantRepository() 
+- UserRepository userRepository() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.TenantAdministratorRegistered<<Event>> { 
+- FullName administratorName
+- EmailAddress emailAddress
+- int eventVersion
+- Date occurredOn
+- String temporaryPassword
+- TenantId tenantId
+- String tenantName
+- String username
++ TenantAdministratorRegistered(
+            TenantId aTenantId,
+            String aTenantName,
+            FullName anAdministratorName,
+            EmailAddress anEmailAddress,
+            String aUsername,
+            String aTemporaryPassword) 
++ FullName administratorName() 
++ EmailAddress emailAddress() 
++ int eventVersion() 
++ Date occurredOn() 
++ String temporaryPassword() 
++ TenantId tenantId() 
++ String getTenantName() 
++ String username() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.RegistrationInvitation<<Entity>> { 
+- static final long serialVersionUID = 1L
+- String description
+- String invitationId
+- Date startingOn
+- TenantId tenantId
+- Date until
+- int concurrencyVersion
++ String description() 
++ String invitationId() 
++ boolean isAvailable() 
++ boolean isIdentifiedBy(String anInvitationIdentifier) 
++ RegistrationInvitation openEnded() 
++ RegistrationInvitation redefineAs() 
++ Date startingOn() 
++ RegistrationInvitation startingOn(Date aDate) 
++ TenantId tenantId() 
++ InvitationDescriptor toDescriptor() 
++ Date until() 
++ RegistrationInvitation until(Date aDate) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# RegistrationInvitation(
+            TenantId aTenantId,
+            String anInvitationId,
+            String aDescription) 
+# RegistrationInvitation() 
+# void assertValidInvitationDates() 
+# void setDescription(String aDescription) 
+# void setInvitationId(String anInvitationId) 
+# void setStartingOn(Date aStartingOn) 
+# void setTenantId(TenantId aTenantId) 
+# void setUntil(Date anUntil) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.UserEnablementChanged<<Event>> { 
+- Enablement enablement
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
+- String username
++ UserEnablementChanged(
+            TenantId aTenantId,
+            String aUsername,
+            Enablement anEnablement) 
++ Enablement enablement() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ String username() 
+}
+ class com.saasovation.identityaccess.infrastructure.persistence.HibernateUserRepository<<Repository>> { 
+- Session session
+- SpringHibernateSessionProvider sessionProvider
++ HibernateUserRepository() 
++ void add(User aUser) 
++ Collection<User> allSimilarlyNamedUsers(
+            TenantId aTenantId,
+            String aFirstNamePrefix,
+            String aLastNamePrefix) 
++ void remove(User aUser) 
++ User userFromAuthenticCredentials(
+            TenantId aTenantId,
+            String aUsername,
+            String anEncryptedPassword) 
++ User userWithUsername(
+            TenantId aTenantId,
+            String aUsername) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.GroupMember<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- String name
+- TenantId tenantId
+- GroupMemberType type
+- static final long serialVersionUID = 1L
+- long id
++ boolean isGroup() 
++ boolean isUser() 
++ String name() 
++ TenantId tenantId() 
++ GroupMemberType type() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# GroupMember(TenantId aTenantId, String aName, GroupMemberType aType) 
+# GroupMember() 
+# void setName(String aName) 
+# void setTenantId(TenantId aTenantId) 
+# void setType(GroupMemberType aType) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.UserRegistered<<Event>> { 
+- EmailAddress emailAddress
+- int eventVersion
+- FullName name
+- Date occurredOn
+- TenantId tenantId
+- String username
++ UserRegistered(
+            TenantId aTenantId,
+            String aUsername,
+            FullName aName,
+            EmailAddress anEmailAddress) 
++ EmailAddress emailAddress() 
++ int eventVersion() 
++ FullName name() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ String username() 
+}
+ class com.saasovation.identityaccess.infrastructure.persistence.HibernateRoleRepository<<Repository>> { 
+- Session session
+- SpringHibernateSessionProvider sessionProvider
++ HibernateRoleRepository() 
++ void add(Role aRole) 
++ Collection<Role> allRoles(TenantId aTenantId) 
++ void remove(Role aRole) 
++ Role roleNamed(TenantId aTenantId, String aRoleName) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.PersonContactInformationChanged<<Event>> { 
+- ContactInformation contactInformation
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
+- String username
++ PersonContactInformationChanged(
+            TenantId aTenantId,
+            String aUsername,
+            ContactInformation aContactInformation) 
++ ContactInformation contactInformation() 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ String username() 
+}
+ interface com.saasovation.identityaccess.domain.model.identity.TenantRepository<<Repository>> { 
++ void add(Tenant aTenant)
++ TenantId nextIdentity()
++ void remove(Tenant aTenant)
++ Tenant tenantNamed(String aName)
++ Tenant tenantOfId(TenantId aTenantId)
+}
+ interface com.saasovation.identityaccess.domain.model.identity.EncryptionService<<DomainService>> { 
++ String encryptedValue(String aPlainTextValue)
+}
+ class com.saasovation.identityaccess.domain.model.identity.TenantProvisioned<<Event>> { 
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ TenantProvisioned(TenantId aTenantId) 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.GroupGroupAdded<<Event>> { 
+- int eventVersion
+- String groupName
+- String nestedGroupName
+- Date occurredOn
+- TenantId tenantId
++ GroupGroupAdded(TenantId aTenantId, String aGroupName, String aNestedGroupName) 
++ int eventVersion() 
++ String groupName() 
++ String nestedGroupName() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ interface com.saasovation.identityaccess.domain.model.identity.UserRepository<<Repository>> { 
++ void add(User aUser)
++ Collection<User> allSimilarlyNamedUsers(
+            TenantId aTenantId,
+            String aFirstNamePrefix,
+            String aLastNamePrefix)
++ void remove(User aUser)
++ User userFromAuthenticCredentials(
+            TenantId aTenantId,
+            String aUsername,
+            String anEncryptedPassword)
++ User userWithUsername(
+            TenantId aTenantId,
+            String aUsername)
+}
+ class com.saasovation.identityaccess.domain.model.identity.ContactInformation<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- EmailAddress emailAddress
+- PostalAddress postalAddress
+- Telephone primaryTelephone
+- Telephone secondaryTelephone
++ ContactInformation(
+            EmailAddress anEmailAddress,
+            PostalAddress aPostalAddress,
+            Telephone aPrimaryTelephone,
+            Telephone aSecondaryTelephone) 
++ ContactInformation(ContactInformation aContactInformation) 
++ ContactInformation changeEmailAddress(EmailAddress anEmailAddress) 
++ ContactInformation changePostalAddress(PostalAddress aPostalAddress) 
++ ContactInformation changePrimaryTelephone(Telephone aTelephone) 
++ ContactInformation changeSecondaryTelephone(Telephone aTelephone) 
++ EmailAddress emailAddress() 
++ PostalAddress postalAddress() 
++ Telephone primaryTelephone() 
++ Telephone secondaryTelephone() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# ContactInformation() 
+- void setEmailAddress(EmailAddress anEmailAddress) 
+- void setPostalAddress(PostalAddress aPostalAddress) 
+- void setPrimaryTelephone(Telephone aPrimaryTelephone) 
+- void setSecondaryTelephone(Telephone aSecondaryTelephone) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.Enablement<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- boolean enabled
+- Date endDate
+- Date startDate
++ static Enablement indefiniteEnablement() 
++ Enablement(boolean anEnabled, Date aStartDate, Date anEndDate) 
++ Enablement(Enablement anEnablement) 
++ boolean isEnabled() 
++ boolean isEnablementEnabled() 
++ Date endDate() 
++ boolean isTimeExpired() 
++ Date startDate() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Enablement() 
+- void setEnabled(boolean anEnabled) 
+- void setEndDate(Date anEndDate) 
+- void setStartDate(Date aStartDate) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.PostalAddress<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- String city
+- String countryCode
+- String postalCode
+- String stateProvince
+- String streetAddress
++ PostalAddress(
+            String aStreetAddress,
+            String aCity,
+            String aStateProvince,
+            String aPostalCode,
+            String aCountryCode) 
++ PostalAddress(PostalAddress aPostalAddress) 
++ String city() 
++ String countryCode() 
++ String postalCode() 
++ String stateProvince() 
++ String streetAddress() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# PostalAddress() 
+- void setCity(String aCity) 
+- void setCountryCode(String aCountryCode) 
+- void setPostalCode(String aPostalCode) 
+- void setStateProvince(String aStateProvince) 
+- void setStreetAddress(String aStreetAddress) 
+}
+ class com.saasovation.identityaccess.infrastructure.services.MD5EncryptionService<<DomainService>> { 
++ MD5EncryptionService() 
++ String encryptedValue(String aPlainTextValue) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.GroupUserAdded<<Event>> { 
+- int eventVersion
+- String groupName
+- Date occurredOn
+- TenantId tenantId
+- String username
++ GroupUserAdded(TenantId aTenantId, String aGroupName, String aUsername) 
++ int eventVersion() 
++ String groupName() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ String username() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.InvitationDescriptor<<ValueObject>> { 
+- String description
+- String invitationId
+- Date startingOn
+- TenantId tenantId
+- Date until
++ InvitationDescriptor(
+            TenantId aTenantId,
+            String anInvitationId,
+            String aDescription,
+            Date aStartingOn,
+            Date anUntil) 
++ InvitationDescriptor(InvitationDescriptor anInvitationDescriptor) 
++ String description() 
++ String invitationId() 
++ boolean isOpenEnded() 
++ Date startingOn() 
++ TenantId tenantId() 
++ Date until() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# InvitationDescriptor() 
+- void setDescription(String aDescription) 
+- void setInvitationId(String anInvitationId) 
+- void setStartingOn(Date aStartingOn) 
+- void setTenantId(TenantId aTenantId) 
+- void setUntil(Date anUntil) 
+}
+ class com.saasovation.identityaccess.application.AccessApplicationService<<DomainService>> { 
+- GroupRepository groupRepository
+- RoleRepository roleRepository
+- TenantRepository tenantRepository
+- UserRepository userRepository
++ AccessApplicationService() 
++ void assignUserToRole(AssignUserToRoleCommand aCommand) 
++ boolean isUserInRole(
+            String aTenantId,
+            String aUsername,
+            String aRoleName) 
++ void provisionRole(ProvisionRoleCommand aCommand) 
++ User userInRole(
+            String aTenantId,
+            String aUsername,
+            String aRoleName) 
+- GroupRepository groupRepository() 
+- RoleRepository roleRepository() 
+- TenantRepository tenantRepository() 
+- UserRepository userRepository() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.FullName<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- String firstName
+- String lastName
++ FullName(String aFirstName, String aLastName) 
++ FullName(FullName aFullName) 
++ String asFormattedName() 
++ String firstName() 
++ String lastName() 
++ FullName withChangedFirstName(String aFirstName) 
++ FullName withChangedLastName(String aLastName) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# FullName() 
+- void setFirstName(String aFirstName) 
+- void setLastName(String aLastName) 
+}
+ interface com.saasovation.identityaccess.domain.model.identity.GroupRepository<<Repository>> { 
++ void add(Group aGroup)
++ Collection<Group> allGroups(TenantId aTenantId)
++ Group groupNamed(TenantId aTenantId, String aName)
++ void remove(Group aGroup)
+}
+ class com.saasovation.identityaccess.domain.model.identity.TenantDeactivated<<Event>> { 
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ TenantDeactivated(TenantId aTenantId) 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.Person<<Entity>> { 
+- static final long serialVersionUID = 1L
+- ContactInformation contactInformation
+- FullName name
+- TenantId tenantId
+- User user
+- int concurrencyVersion
++ Person(
+            TenantId aTenantId,
+            FullName aName,
+            ContactInformation aContactInformation) 
++ void changeContactInformation(ContactInformation aContactInformation) 
++ void changeName(FullName aName) 
++ ContactInformation contactInformation() 
++ EmailAddress emailAddress() 
++ FullName name() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Person() 
+# void setContactInformation(ContactInformation aContactInformation) 
+# void setName(FullName aName) 
+# TenantId tenantId() 
+# void setTenantId(TenantId aTenantId) 
+# User user() 
++ void internalOnlySetUser(User aUser) 
+}
+ interface com.saasovation.identityaccess.domain.model.access.RoleRepository<<Repository>> { 
++ void add(Role aRole)
++ Collection<Role> allRoles(TenantId aTenantId)
++ void remove(Role aRole)
++ Role roleNamed(TenantId aTenantId, String aRoleName)
+}
+ class com.saasovation.identityaccess.domain.model.access.Role<<AggregateRoot, Entity>> { 
+- static final long serialVersionUID = 1L
+- String description
+- Group group
+- String name
+- boolean supportsNesting = true
+- TenantId tenantId
+- int concurrencyVersion
++ Role(TenantId aTenantId, String aName, String aDescription) 
++ Role(
+            TenantId aTenantId,
+            String aName,
+            String aDescription,
+            boolean aSupportsNesting) 
++ void assignGroup(Group aGroup, GroupMemberService aGroupMemberService) 
++ void assignUser(User aUser) 
++ String description() 
++ boolean isInRole(User aUser, GroupMemberService aGroupMemberService) 
++ String name() 
++ boolean supportsNesting() 
++ TenantId tenantId() 
++ void unassignGroup(Group aGroup) 
++ void unassignUser(User aUser) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Role() 
+# void createInternalGroup() 
+# void setDescription(String aDescription) 
+# Group group() 
+# void setGroup(Group aGroup) 
+# void setName(String aName) 
+# void setSupportsNesting(boolean aSupportsNesting) 
+# void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.AuthenticationService<<DomainService>> { 
+- EncryptionService encryptionService
+- TenantRepository tenantRepository
+- UserRepository userRepository
++ AuthenticationService(
+            TenantRepository aTenantRepository,
+            UserRepository aUserRepository,
+            EncryptionService anEncryptionService) 
++ UserDescriptor authenticate(
+            TenantId aTenantId,
+            String aUsername,
+            String aPassword) 
+- EncryptionService encryptionService() 
+- TenantRepository tenantRepository() 
+- UserRepository userRepository() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.GroupGroupRemoved<<Event>> { 
+- int eventVersion
+- String groupName
+- String nestedGroupName
+- Date occurredOn
+- TenantId tenantId
++ GroupGroupRemoved(TenantId aTenantId, String aGroupName, String aNestedGroupName) 
++ int eventVersion() 
++ String groupName() 
++ String nestedGroupName() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.GroupMemberService<<DomainService>> { 
+- GroupRepository groupRepository
+- UserRepository userRepository
++ GroupMemberService(
+            UserRepository aUserRepository,
+            GroupRepository aGroupRepository) 
++ boolean confirmUser(Group aGroup, User aUser) 
++ boolean isMemberGroup(Group aGroup, GroupMember aMemberGroup) 
++ boolean isUserInNestedGroup(Group aGroup, User aUser) 
+- GroupRepository groupRepository() 
+- UserRepository userRepository() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.GroupProvisioned<<Event>> { 
+- int eventVersion
+- String name
+- Date occurredOn
+- TenantId tenantId
++ GroupProvisioned(TenantId aTenantId, String aName) 
++ int eventVersion() 
++ String name() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.Group<<AggregateRoot, Entity>> { 
+- static final long serialVersionUID = 1L
++ static final String ROLE_GROUP_PREFIX = "ROLE-INTERNAL-GROUP: "
+- String description
+- Set<GroupMember> groupMembers
+- String name
+- TenantId tenantId
+- int concurrencyVersion
++ Group(TenantId aTenantId, String aName, String aDescription) 
++ void addGroup(Group aGroup, GroupMemberService aGroupMemberService) 
++ void addUser(User aUser) 
++ String description() 
++ Set<GroupMember> groupMembers() 
++ boolean isMember(User aUser, GroupMemberService aGroupMemberService) 
++ String name() 
++ void removeGroup(Group aGroup) 
++ void removeUser(User aUser) 
++ TenantId tenantId() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Group() 
+# void setDescription(String aDescription) 
+# void setGroupMembers(Set<GroupMember> aGroupMembers) 
+# boolean isInternalGroup() 
+# boolean isInternalGroup(String aName) 
+# void setName(String aName) 
+# void setTenantId(TenantId aTenantId) 
+# GroupMember toGroupMember() 
+}
+ class com.saasovation.identityaccess.infrastructure.persistence.HibernateTenantRepository<<Repository>> { 
+- Session session
+- SpringHibernateSessionProvider sessionProvider
++ HibernateTenantRepository() 
++ void add(Tenant aTenant) 
++ TenantId nextIdentity() 
++ void remove(Tenant aTenant) 
++ Tenant tenantNamed(String aName) 
++ Tenant tenantOfId(TenantId aTenantId) 
+}
+ class com.saasovation.identityaccess.application.IdentityApplicationService<<DomainService>> { 
+- AuthenticationService authenticationService
+- GroupMemberService groupMemberService
+- GroupRepository groupRepository
+- TenantProvisioningService tenantProvisioningService
+- TenantRepository tenantRepository
+- UserRepository userRepository
++ IdentityApplicationService() 
++ void activateTenant(ActivateTenantCommand aCommand) 
++ void addGroupToGroup(AddGroupToGroupCommand aCommand) 
++ void addUserToGroup(AddUserToGroupCommand aCommand) 
++ UserDescriptor authenticateUser(AuthenticateUserCommand aCommand) 
++ void deactivateTenant(DeactivateTenantCommand aCommand) 
++ void changeUserContactInformation(ChangeContactInfoCommand aCommand) 
++ void changeUserEmailAddress(ChangeEmailAddressCommand aCommand) 
++ void changeUserPostalAddress(ChangePostalAddressCommand aCommand) 
++ void changeUserPrimaryTelephone(ChangePrimaryTelephoneCommand aCommand) 
++ void changeUserSecondaryTelephone(ChangeSecondaryTelephoneCommand aCommand) 
++ void changeUserPassword(ChangeUserPasswordCommand aCommand) 
++ void changeUserPersonalName(ChangeUserPersonalNameCommand aCommand) 
++ void defineUserEnablement(DefineUserEnablementCommand aCommand) 
++ Group group(String aTenantId, String aGroupName) 
++ boolean isGroupMember(String aTenantId, String aGroupName, String aUsername) 
++ Group provisionGroup(ProvisionGroupCommand aCommand) 
++ Tenant provisionTenant(ProvisionTenantCommand aCommand) 
++ User registerUser(RegisterUserCommand aCommand) 
++ void removeGroupFromGroup(RemoveGroupFromGroupCommand aCommand) 
++ void removeUserFromGroup(RemoveUserFromGroupCommand aCommand) 
++ Tenant tenant(String aTenantId) 
++ User user(String aTenantId, String aUsername) 
++ UserDescriptor userDescriptor(
+            String aTenantId,
+            String aUsername) 
+- AuthenticationService authenticationService() 
+- Group existingGroup(String aTenantId, String aGroupName) 
+- Tenant existingTenant(String aTenantId) 
+- User existingUser(String aTenantId, String aUsername) 
+- GroupMemberService groupMemberService() 
+- GroupRepository groupRepository() 
+- void internalChangeUserContactInformation(
+            User aUser,
+            ContactInformation aContactInformation) 
+- TenantProvisioningService tenantProvisioningService() 
+- TenantRepository tenantRepository() 
+- UserRepository userRepository() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.Tenant<<AggregateRoot, Entity>> { 
+- static final long serialVersionUID = 1L
+- boolean active
+- String description
+- String name
+- Set<RegistrationInvitation> registrationInvitations
+- TenantId tenantId
+- int concurrencyVersion
++ Tenant(TenantId aTenantId, String aName, String aDescription, boolean anActive) 
++ void activate() 
++ Collection<InvitationDescriptor> allAvailableRegistrationInvitations() 
++ Collection<InvitationDescriptor> allUnavailableRegistrationInvitations() 
++ void deactivate() 
++ String description() 
++ boolean isActive() 
++ boolean isRegistrationAvailableThrough(String anInvitationIdentifier) 
++ String name() 
++ RegistrationInvitation offerRegistrationInvitation(String aDescription) 
++ Group provisionGroup(String aName, String aDescription) 
++ Role provisionRole(String aName, String aDescription) 
++ Role provisionRole(String aName, String aDescription, boolean aSupportsNesting) 
++ RegistrationInvitation redefineRegistrationInvitationAs(String anInvitationIdentifier) 
++ User registerUser(
+            String anInvitationIdentifier,
+            String aUsername,
+            String aPassword,
+            Enablement anEnablement,
+            Person aPerson) 
++ TenantId tenantId() 
++ void withdrawInvitation(String anInvitationIdentifier) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Tenant() 
+# void setActive(boolean anActive) 
+# Collection<InvitationDescriptor> allRegistrationInvitationsFor(boolean isAvailable) 
+# void setDescription(String aDescription) 
+# RegistrationInvitation invitation(String anInvitationIdentifier) 
+# void setName(String aName) 
+# Set<RegistrationInvitation> registrationInvitations() 
+# void setRegistrationInvitations(Set<RegistrationInvitation> aRegistrationInvitations) 
+# void setTenantId(TenantId aTenantId) 
+}
+ class com.saasovation.identityaccess.domain.model.access.AuthorizationService<<DomainService>> { 
+- GroupRepository groupRepository
+- RoleRepository roleRepository
+- UserRepository userRepository
++ AuthorizationService(
+            UserRepository aUserRepository,
+            GroupRepository aGroupRepository,
+            RoleRepository aRoleRepository) 
++ boolean isUserInRole(TenantId aTenantId, String aUsername, String aRoleName) 
++ boolean isUserInRole(User aUser, String aRoleName) 
+- GroupRepository groupRepository() 
+- RoleRepository roleRepository() 
+- UserRepository userRepository() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.EmailAddress<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- String address
++ EmailAddress(String anAddress) 
++ EmailAddress(EmailAddress anEmailAddress) 
++ String address() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# EmailAddress() 
+- void setAddress(String anAddress) 
+}
+ class com.saasovation.identityaccess.domain.model.identity.TenantActivated<<Event>> { 
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
++ TenantActivated(TenantId aTenantId) 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.PersonNameChanged<<Event>> { 
+- int eventVersion
+- FullName name
+- Date occurredOn
+- TenantId tenantId
+- String username
++ PersonNameChanged(TenantId aTenantId, String aUsername, FullName aName) 
++ int eventVersion() 
++ FullName name() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ String username() 
+}
+ class com.saasovation.identityaccess.application.NotificationApplicationService<<DomainService>> { 
+- EventStore eventStore
+- NotificationPublisher notificationPublisher
++ NotificationApplicationService() 
++ NotificationLog currentNotificationLog() 
++ NotificationLog notificationLog(String aNotificationLogId) 
++ void publishNotifications() 
+# EventStore eventStore() 
+# NotificationPublisher notificationPublisher() 
+}
+ class com.saasovation.identityaccess.domain.model.identity.UserPasswordChanged<<Event>> { 
+- int eventVersion
+- Date occurredOn
+- TenantId tenantId
+- String username
++ UserPasswordChanged(TenantId aTenantId, String aUsername) 
++ int eventVersion() 
++ Date occurredOn() 
++ TenantId tenantId() 
++ String username() 
+}
+'!@Relation
+com.saasovation.identityaccess.domain.model.identity.PersonContactInformationChanged --> com.saasovation.identityaccess.domain.model.identity.ContactInformation
+
+com.saasovation.identityaccess.domain.model.identity.InvitationDescriptor --> com.saasovation.identityaccess.domain.model.identity.InvitationDescriptor
+
+com.saasovation.identityaccess.domain.model.access.Role --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.domain.model.access.Role --> com.saasovation.identityaccess.domain.model.identity.GroupMemberService
+com.saasovation.identityaccess.domain.model.access.Role --> com.saasovation.identityaccess.domain.model.identity.Group
+
+com.saasovation.identityaccess.domain.model.identity.UserRegistered --> com.saasovation.identityaccess.domain.model.identity.EmailAddress
+com.saasovation.identityaccess.domain.model.identity.UserRegistered --> com.saasovation.identityaccess.domain.model.identity.FullName
+
+com.saasovation.identityaccess.infrastructure.persistence.HibernateGroupRepository --> com.saasovation.identityaccess.domain.model.identity.Group
+
+com.saasovation.identityaccess.domain.model.identity.UserDescriptor --> com.saasovation.identityaccess.domain.model.identity.UserDescriptor
+
+com.saasovation.identityaccess.domain.model.identity.RegistrationInvitation --> com.saasovation.identityaccess.domain.model.identity.RegistrationInvitation
+com.saasovation.identityaccess.domain.model.identity.RegistrationInvitation --> com.saasovation.identityaccess.domain.model.identity.InvitationDescriptor
+
+com.saasovation.identityaccess.domain.model.identity.User --> com.saasovation.identityaccess.domain.model.identity.ContactInformation
+com.saasovation.identityaccess.domain.model.identity.User --> com.saasovation.identityaccess.domain.model.identity.UserDescriptor
+com.saasovation.identityaccess.domain.model.identity.User --> com.saasovation.identityaccess.domain.model.identity.GroupMember
+com.saasovation.identityaccess.domain.model.identity.User --> com.saasovation.identityaccess.domain.model.identity.FullName
+com.saasovation.identityaccess.domain.model.identity.User --> com.saasovation.identityaccess.domain.model.identity.Enablement
+com.saasovation.identityaccess.domain.model.identity.User --> com.saasovation.identityaccess.domain.model.identity.Person
+
+com.saasovation.identityaccess.domain.model.identity.UserEnablementChanged --> com.saasovation.identityaccess.domain.model.identity.Enablement
+
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.UserRepository
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.AuthenticationService
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.UserDescriptor
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.ContactInformation
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.Tenant
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.Group
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.TenantRepository
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.GroupRepository
+com.saasovation.identityaccess.application.IdentityApplicationService --> com.saasovation.identityaccess.domain.model.identity.GroupMemberService
+
+com.saasovation.identityaccess.domain.model.access.AuthorizationService --> com.saasovation.identityaccess.domain.model.identity.GroupRepository
+com.saasovation.identityaccess.domain.model.access.AuthorizationService --> com.saasovation.identityaccess.domain.model.access.RoleRepository
+com.saasovation.identityaccess.domain.model.access.AuthorizationService --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.domain.model.access.AuthorizationService --> com.saasovation.identityaccess.domain.model.identity.UserRepository
+
+com.saasovation.identityaccess.domain.model.identity.PostalAddress --> com.saasovation.identityaccess.domain.model.identity.PostalAddress
+
+com.saasovation.identityaccess.domain.model.identity.Enablement --> com.saasovation.identityaccess.domain.model.identity.Enablement
+
+com.saasovation.identityaccess.domain.model.identity.Tenant --> com.saasovation.identityaccess.domain.model.identity.RegistrationInvitation
+com.saasovation.identityaccess.domain.model.identity.Tenant --> com.saasovation.identityaccess.domain.model.identity.InvitationDescriptor
+com.saasovation.identityaccess.domain.model.identity.Tenant --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.domain.model.identity.Tenant --> com.saasovation.identityaccess.domain.model.access.Role
+com.saasovation.identityaccess.domain.model.identity.Tenant --> com.saasovation.identityaccess.domain.model.identity.Enablement
+com.saasovation.identityaccess.domain.model.identity.Tenant --> com.saasovation.identityaccess.domain.model.identity.Group
+com.saasovation.identityaccess.domain.model.identity.Tenant --> com.saasovation.identityaccess.domain.model.identity.Person
+
+com.saasovation.identityaccess.domain.model.identity.FullName --> com.saasovation.identityaccess.domain.model.identity.FullName
+
+com.saasovation.identityaccess.infrastructure.persistence.HibernateUserRepository --> com.saasovation.identityaccess.domain.model.identity.User
+
+com.saasovation.identityaccess.domain.model.identity.Telephone --> com.saasovation.identityaccess.domain.model.identity.Telephone
+
+com.saasovation.identityaccess.domain.model.identity.TenantAdministratorRegistered --> com.saasovation.identityaccess.domain.model.identity.FullName
+com.saasovation.identityaccess.domain.model.identity.TenantAdministratorRegistered --> com.saasovation.identityaccess.domain.model.identity.EmailAddress
+
+com.saasovation.identityaccess.domain.model.identity.Group --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.domain.model.identity.Group --> com.saasovation.identityaccess.domain.model.identity.GroupMember
+com.saasovation.identityaccess.domain.model.identity.Group --> com.saasovation.identityaccess.domain.model.identity.GroupMemberService
+com.saasovation.identityaccess.domain.model.identity.Group --> com.saasovation.identityaccess.domain.model.identity.Group
+
+com.saasovation.identityaccess.domain.model.identity.UserRepository --> com.saasovation.identityaccess.domain.model.identity.User
+
+com.saasovation.identityaccess.infrastructure.persistence.HibernateRoleRepository --> com.saasovation.identityaccess.domain.model.access.Role
+
+com.saasovation.identityaccess.domain.model.identity.EmailAddress --> com.saasovation.identityaccess.domain.model.identity.EmailAddress
+
+com.saasovation.identityaccess.domain.model.identity.TenantRepository --> com.saasovation.identityaccess.domain.model.identity.Tenant
+
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.identity.TenantRepository
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.identity.PostalAddress
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.access.RoleRepository
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.identity.Tenant
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.identity.UserRepository
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.identity.FullName
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.identity.EmailAddress
+com.saasovation.identityaccess.domain.model.identity.TenantProvisioningService --> com.saasovation.identityaccess.domain.model.identity.Telephone
+
+com.saasovation.identityaccess.domain.model.access.RoleRepository --> com.saasovation.identityaccess.domain.model.access.Role
+
+com.saasovation.identityaccess.application.AccessApplicationService --> com.saasovation.identityaccess.domain.model.identity.TenantRepository
+com.saasovation.identityaccess.application.AccessApplicationService --> com.saasovation.identityaccess.domain.model.identity.GroupRepository
+com.saasovation.identityaccess.application.AccessApplicationService --> com.saasovation.identityaccess.domain.model.access.RoleRepository
+com.saasovation.identityaccess.application.AccessApplicationService --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.application.AccessApplicationService --> com.saasovation.identityaccess.domain.model.identity.UserRepository
+
+com.saasovation.identityaccess.domain.model.identity.GroupRepository --> com.saasovation.identityaccess.domain.model.identity.Group
+
+com.saasovation.identityaccess.infrastructure.persistence.HibernateTenantRepository --> com.saasovation.identityaccess.domain.model.identity.Tenant
+
+com.saasovation.identityaccess.domain.model.identity.PersonNameChanged --> com.saasovation.identityaccess.domain.model.identity.FullName
+
+com.saasovation.identityaccess.domain.model.identity.ContactInformation --> com.saasovation.identityaccess.domain.model.identity.PostalAddress
+com.saasovation.identityaccess.domain.model.identity.ContactInformation --> com.saasovation.identityaccess.domain.model.identity.ContactInformation
+com.saasovation.identityaccess.domain.model.identity.ContactInformation --> com.saasovation.identityaccess.domain.model.identity.EmailAddress
+com.saasovation.identityaccess.domain.model.identity.ContactInformation --> com.saasovation.identityaccess.domain.model.identity.Telephone
+
+com.saasovation.identityaccess.domain.model.identity.GroupMemberService --> com.saasovation.identityaccess.domain.model.identity.GroupRepository
+com.saasovation.identityaccess.domain.model.identity.GroupMemberService --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.domain.model.identity.GroupMemberService --> com.saasovation.identityaccess.domain.model.identity.GroupMember
+com.saasovation.identityaccess.domain.model.identity.GroupMemberService --> com.saasovation.identityaccess.domain.model.identity.UserRepository
+com.saasovation.identityaccess.domain.model.identity.GroupMemberService --> com.saasovation.identityaccess.domain.model.identity.Group
+
+com.saasovation.identityaccess.application.NotificationApplicationService --> com.saasovation.common.notification.NotificationLog
+
+com.saasovation.identityaccess.domain.model.identity.Person --> com.saasovation.identityaccess.domain.model.identity.User
+com.saasovation.identityaccess.domain.model.identity.Person --> com.saasovation.identityaccess.domain.model.identity.ContactInformation
+com.saasovation.identityaccess.domain.model.identity.Person --> com.saasovation.identityaccess.domain.model.identity.FullName
+com.saasovation.identityaccess.domain.model.identity.Person --> com.saasovation.identityaccess.domain.model.identity.EmailAddress
+
+com.saasovation.identityaccess.domain.model.identity.AuthenticationService --> com.saasovation.identityaccess.domain.model.identity.TenantRepository
+com.saasovation.identityaccess.domain.model.identity.AuthenticationService --> com.saasovation.identityaccess.domain.model.identity.UserDescriptor
+com.saasovation.identityaccess.domain.model.identity.AuthenticationService --> com.saasovation.identityaccess.domain.model.identity.UserRepository
+com.saasovation.identityaccess.domain.model.identity.AuthenticationService --> com.saasovation.identityaccess.domain.model.identity.EncryptionService
+
+
+@enduml

@@ -1,0 +1,202 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam package {
+backgroundColor #E3F2FD
+}
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor Gray
+    ActorBorderColor Gray
+    BackgroundColor #E3F2FD
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+left to right direction
+'!@Item
+ class com.saasovation.common.notification.NotificationLog<<Entity>> { 
+- boolean archived
+- List<Notification> notifications
+- String notificationLogId
+- String nextNotificationLogId
+- String previousNotificationLogId
++ NotificationLog(
+            String aNotificationLogId,
+            String aNextNotificationLogId,
+            String aPreviousNotificationLogId,
+            List<Notification> aNotifications,
+            boolean anArchivedIndicator) 
++ boolean isArchived() 
++ List<Notification> notifications() 
++ NotificationLogId decodedNotificationLogId() 
++ String notificationLogId() 
++ NotificationLogId decodedNextNotificationLogId() 
++ String nextNotificationLogId() 
++ boolean hasNextNotificationLog() 
++ NotificationLogId decodedPreviousNotificationLogId() 
++ String previousNotificationLogId() 
++ boolean hasPreviousNotificationLog() 
++ int totalNotifications() 
+# NotificationLog() 
+- void setNotifications(List<Notification> aNotifications) 
+- void setNotificationLogId(String aNotificationLogId) 
+- void setNextNotificationLogId(String aNextNotificationLogId) 
+- void setPreviousNotificationLogId(String aPreviousNotificationLogId) 
+- void setArchived(boolean aArchived) 
+}
+ class com.saasovation.common.notification.Notification<<Entity>> { 
+- static final long serialVersionUID = 1L
+- DomainEvent event
+- long notificationId
+- Date occurredOn
+- String typeName
+- int version
++ Notification(
+            long aNotificationId,
+            DomainEvent anEvent) 
++ <T extends DomainEvent> T event() 
++ long notificationId() 
++ Date occurredOn() 
++ String typeName() 
++ int version() 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+# Notification() 
+# void setEvent(DomainEvent anEvent) 
+# void setNotificationId(long aNotificationId) 
+# void setOccurredOn(Date anOccurredOn) 
+# void setTypeName(String aTypeName) 
+- void setVersion(int aVersion) 
+}
+ class com.saasovation.common.domain.model.Validator<<Specification>> { 
+- ValidationNotificationHandler notificationHandler
++ Validator(ValidationNotificationHandler aHandler) 
++ abstract void validate()
+# ValidationNotificationHandler notificationHandler() 
+- void setNotificationHandler(ValidationNotificationHandler aHandler) 
+}
+ class com.saasovation.common.notification.NotificationLogId<<ValueObject>> { 
+- long low
+- long high
++ static String encoded(NotificationLogId aNotificationLogId) 
++ static NotificationLogId first(int aNotificationsPerLog) 
++ NotificationLogId(long aLowId, long aHighId) 
++ NotificationLogId(String aNotificationLogId) 
++ String encoded() 
++ long low() 
++ long high() 
++ NotificationLogId next(int aNotificationsPerLog) 
++ NotificationLogId previous(int aNotificationsPerLog) 
++ boolean equals(Object anObject) 
++ int hashCode() 
++ String toString() 
+- void setLow(long aLow) 
+- void setHigh(long aHigh) 
+}
+ class com.saasovation.common.notification.NotificationLogInfo<<ValueObject>> { 
+- NotificationLogId notificationLogId
+- long totalLogged
++ NotificationLogInfo(NotificationLogId aNotificationLogId, long aTotalLogged) 
++ NotificationLogId notificationLogId() 
++ long totalLogged() 
+}
+ class com.saasovation.common.domain.model.process.AbstractProcess<<Entity>> { 
+- long allowableDuration
+- int concurrencyVersion
+- String description
+- ProcessId processId
+- ProcessCompletionType processCompletionType
+- Date startTime
+- String tenantId
+- Date timedOutDate
+- int totalRetriesPermitted
++ boolean didProcessingComplete() 
++ void failWhenConcurrencyViolation(int aVersion) 
++ void informTimeout(Date aTimedOutDate) 
++ TimeConstrainedProcessTracker timeConstrainedProcessTracker() 
++ long totalAllowableDuration() 
+}
+ class com.saasovation.common.port.adapter.persistence.AbstractQueryService<<Repository>> { 
+- DataSource dataSource
+# AbstractQueryService(DataSource aDataSource) 
+# void close(Statement aStatement, ResultSet aResult) 
+# <T> T queryObject(
+            Class<T> aClass,
+            String aQuery,
+            JoinOn aJoinOn,
+            String... anArguments) 
+# <T> Collection<T> queryObjects(
+            Class<T> aClass,
+            String aQuery,
+            JoinOn aJoinOn,
+            Object... anArguments) 
+# String queryString(
+            String aQuery,
+            String... anArguments) 
+- <T> T mapResultToType(ResultSet aResultSet, Class<T> aClass, JoinOn aJoinOn) 
+- void setStatementArguments(
+            PreparedStatement aPreparedStatement,
+            Object[] anArguments)
+    throws SQLException 
+}
+ class com.saasovation.common.domain.model.IdentifiedValueObject<<ValueObject>> { 
+- static final long serialVersionUID = 1L
+- long id
+# IdentifiedValueObject() 
+}
+ class com.saasovation.common.domain.model.process.TimeConstrainedProcessTracker<<ValueObject>> { 
+- long allowableDuration
+- boolean completed
+- int concurrencyVersion
+- String description
+- ProcessId processId
+- boolean processInformedOfTimeout
+- String processTimedOutEventType
+- int retryCount
+- String tenantId
+- long timeConstrainedProcessTrackerId
+- long timeoutOccursOn
+- int totalRetriesPermitted
++ boolean isProcessInformedOfTimeout() 
++ String processTimedOutEventType() 
++ boolean hasTimedOut() 
++ void informProcessTimedOut() 
+# TimeConstrainedProcessTracker() 
+# int concurrencyVersion() 
+# void setConcurrencyVersion(int aConcurrencyVersion) 
+- void incrementRetryCount() 
+- boolean totalRetriesReached() 
+}
+ class com.saasovation.common.domain.model.ConcurrencySafeEntity<<Entity>> { 
+- int concurrencyVersion
+# ConcurrencySafeEntity() 
++ int concurrencyVersion() 
++ void setConcurrencyVersion(int aVersion) 
++ void failWhenConcurrencyViolation(int aVersion) 
+}
+ interface com.saasovation.common.domain.model.process.TimeConstrainedProcessTrackerRepository<<Repository>> { 
++ void add(TimeConstrainedProcessTracker aTimeConstrainedProcessTracker)
++ Collection<TimeConstrainedProcessTracker> allTimedOut()
++ Collection<TimeConstrainedProcessTracker> allTimedOutOf(String aTenantId)
++ Collection<TimeConstrainedProcessTracker> allTrackers(String aTenantId)
++ void save(TimeConstrainedProcessTracker aTimeConstrainedProcessTracker)
++ TimeConstrainedProcessTracker trackerOfProcessId(String aTenantId, ProcessId aProcessId)
+}
+'!@Relation
+com.saasovation.common.notification.NotificationLogId --> com.saasovation.common.notification.NotificationLogId
+
+com.saasovation.common.notification.NotificationLog --> com.saasovation.common.notification.Notification
+com.saasovation.common.notification.NotificationLog --> com.saasovation.common.notification.NotificationLogId
+
+com.saasovation.common.domain.model.process.AbstractProcess --> com.saasovation.common.domain.model.process.TimeConstrainedProcessTracker
+
+com.saasovation.common.notification.NotificationLogInfo --> com.saasovation.common.notification.NotificationLogId
+
+com.saasovation.common.domain.model.process.TimeConstrainedProcessTrackerRepository --> com.saasovation.common.domain.model.process.TimeConstrainedProcessTracker
+
+
+@enduml

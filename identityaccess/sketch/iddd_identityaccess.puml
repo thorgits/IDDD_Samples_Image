@@ -1,0 +1,286 @@
+@startuml
+skinparam linetype ortho
+skinparam Shadowing false
+skinparam wrapWidth 200
+
+skinparam Class {
+    ClassBorderThickness 1
+    ArrowColor  Teal
+    BorderColor #64B5F6
+    FontSize 14
+    AttributeFontSize 14
+    StereotypeFontColor #589DF6
+    StereotypeFontSize 14
+}
+skinparam linetype ortho
+skinparam rectangle {
+ roundCorner 100
+}
+'!@Sketch
+package iddd_identityaccess <<Rectangle>> #8B9BAC{
+class HibernateTenantRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide HibernateTenantRepository members
+
+class TenantRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide TenantRepository members
+
+class HibernateUserRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide HibernateUserRepository members
+
+class UserPasswordChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide UserPasswordChanged members
+
+class IdentityApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide IdentityApplicationService members
+
+class PostalAddress <<(V,#148610) ValueObject>> #861F1B {}
+hide PostalAddress members
+
+class TenantAdministratorRegistered <<(T,#207EC4) Event>> #C45E24 {}
+hide TenantAdministratorRegistered members
+
+class Tenant <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide Tenant members
+
+class GroupProvisioned <<(T,#207EC4) Event>> #C45E24 {}
+hide GroupProvisioned members
+
+class NotificationApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide NotificationApplicationService members
+
+class UserRegistered <<(T,#207EC4) Event>> #C45E24 {}
+hide UserRegistered members
+
+class TenantProvisioned <<(T,#207EC4) Event>> #C45E24 {}
+hide TenantProvisioned members
+
+class HibernateGroupRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide HibernateGroupRepository members
+
+class AuthenticationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide AuthenticationService members
+
+class GroupUserRemoved <<(T,#207EC4) Event>> #C45E24 {}
+hide GroupUserRemoved members
+
+class UserRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide UserRepository members
+
+class MD5EncryptionService <<(D,#AF1603) DomainService>> #544E15 {}
+hide MD5EncryptionService members
+
+class GroupMemberService <<(D,#AF1603) DomainService>> #544E15 {}
+hide GroupMemberService members
+
+class EmailAddress <<(V,#148610) ValueObject>> #861F1B {}
+hide EmailAddress members
+
+class RoleRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide RoleRepository members
+
+class User <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide User members
+
+class Telephone <<(V,#148610) ValueObject>> #861F1B {}
+hide Telephone members
+
+class AccessApplicationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide AccessApplicationService members
+
+class HibernateRoleRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide HibernateRoleRepository members
+
+class GroupGroupAdded <<(T,#207EC4) Event>> #C45E24 {}
+hide GroupGroupAdded members
+
+class GroupMember <<(V,#148610) ValueObject>> #861F1B {}
+hide GroupMember members
+
+class Group <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide Group members
+
+class AuthorizationService <<(D,#AF1603) DomainService>> #544E15 {}
+hide AuthorizationService members
+
+class UserEnablementChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide UserEnablementChanged members
+
+class ContactInformation <<(V,#148610) ValueObject>> #861F1B {}
+hide ContactInformation members
+
+class UserDescriptor <<(V,#148610) ValueObject>> #861F1B {}
+hide UserDescriptor members
+
+class GroupUserAdded <<(T,#207EC4) Event>> #C45E24 {}
+hide GroupUserAdded members
+
+class GroupRepository <<(R,#e2b8b8)Repository>> #FFFFFF {}
+hide GroupRepository members
+
+class PersonContactInformationChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide PersonContactInformationChanged members
+
+class Role <<(R,#5C95D1) AggregateRoot>> #D1A349 {}
+hide Role members
+
+class TenantDeactivated <<(T,#207EC4) Event>> #C45E24 {}
+hide TenantDeactivated members
+
+class TenantProvisioningService <<(D,#AF1603) DomainService>> #544E15 {}
+hide TenantProvisioningService members
+
+class InvitationDescriptor <<(V,#148610) ValueObject>> #861F1B {}
+hide InvitationDescriptor members
+
+class Enablement <<(V,#148610) ValueObject>> #861F1B {}
+hide Enablement members
+
+class TenantActivated <<(T,#207EC4) Event>> #C45E24 {}
+hide TenantActivated members
+
+class Person <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide Person members
+
+class EncryptionService <<(D,#AF1603) DomainService>> #544E15 {}
+hide EncryptionService members
+
+class GroupGroupRemoved <<(T,#207EC4) Event>> #C45E24 {}
+hide GroupGroupRemoved members
+
+class PersonNameChanged <<(T,#207EC4) Event>> #C45E24 {}
+hide PersonNameChanged members
+
+class FullName <<(V,#148610) ValueObject>> #861F1B {}
+hide FullName members
+
+class RegistrationInvitation <<(E,#FF7700)Entity>> #8ED4D1 {}
+hide RegistrationInvitation members
+
+}
+'!@Relation
+UserRegistered --> EmailAddress
+UserRegistered --> FullName
+
+PersonNameChanged --> FullName
+
+HibernateUserRepository --> User
+
+PostalAddress --> PostalAddress
+
+FullName --> FullName
+
+HibernateRoleRepository --> Role
+
+Tenant --> RegistrationInvitation
+Tenant --> InvitationDescriptor
+Tenant --> User
+Tenant --> Role
+Tenant --> Enablement
+Tenant --> Group
+Tenant --> Person
+
+GroupRepository --> Group
+
+AuthenticationService --> TenantRepository
+AuthenticationService --> UserDescriptor
+AuthenticationService --> UserRepository
+AuthenticationService --> EncryptionService
+
+HibernateGroupRepository --> Group
+
+UserDescriptor --> UserDescriptor
+
+Telephone --> Telephone
+
+Group --> User
+Group --> GroupMember
+Group --> GroupMemberService
+Group --> Group
+
+EmailAddress --> EmailAddress
+
+User --> ContactInformation
+User --> UserDescriptor
+User --> GroupMember
+User --> FullName
+User --> Enablement
+User --> Person
+
+AuthorizationService --> GroupRepository
+AuthorizationService --> RoleRepository
+AuthorizationService --> User
+AuthorizationService --> UserRepository
+
+InvitationDescriptor --> InvitationDescriptor
+
+TenantRepository --> Tenant
+
+ContactInformation --> PostalAddress
+ContactInformation --> ContactInformation
+ContactInformation --> EmailAddress
+ContactInformation --> Telephone
+
+Role --> User
+Role --> GroupMemberService
+Role --> Group
+
+PersonContactInformationChanged --> ContactInformation
+
+RoleRepository --> Role
+
+Enablement --> Enablement
+
+NotificationApplicationService --> NotificationLog
+
+AccessApplicationService --> TenantRepository
+AccessApplicationService --> GroupRepository
+AccessApplicationService --> RoleRepository
+AccessApplicationService --> User
+AccessApplicationService --> UserRepository
+
+TenantAdministratorRegistered --> FullName
+TenantAdministratorRegistered --> EmailAddress
+
+Person --> User
+Person --> ContactInformation
+Person --> FullName
+Person --> EmailAddress
+
+GroupMemberService --> GroupRepository
+GroupMemberService --> User
+GroupMemberService --> GroupMember
+GroupMemberService --> UserRepository
+GroupMemberService --> Group
+
+TenantProvisioningService --> TenantRepository
+TenantProvisioningService --> PostalAddress
+TenantProvisioningService --> RoleRepository
+TenantProvisioningService --> Tenant
+TenantProvisioningService --> UserRepository
+TenantProvisioningService --> FullName
+TenantProvisioningService --> EmailAddress
+TenantProvisioningService --> Telephone
+
+IdentityApplicationService --> UserRepository
+IdentityApplicationService --> AuthenticationService
+IdentityApplicationService --> UserDescriptor
+IdentityApplicationService --> User
+IdentityApplicationService --> ContactInformation
+IdentityApplicationService --> TenantProvisioningService
+IdentityApplicationService --> Tenant
+IdentityApplicationService --> Group
+IdentityApplicationService --> TenantRepository
+IdentityApplicationService --> GroupRepository
+IdentityApplicationService --> GroupMemberService
+
+HibernateTenantRepository --> Tenant
+
+UserEnablementChanged --> Enablement
+
+RegistrationInvitation --> RegistrationInvitation
+RegistrationInvitation --> InvitationDescriptor
+
+UserRepository --> User
+
+
+@enduml
